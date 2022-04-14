@@ -1,4 +1,4 @@
-# we-care-about-you
+# we-care-you
 
 ## About the project name
 
