@@ -7,10 +7,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var db *sql.DB
+type Config struct {
+	DBPath string
+}
+
+type Server struct {
+	DB     *sql.DB
+	Config Config
+}
+
+var server *Server
 
 func init() {
-	db, _ = store.OpenDatabase()
+	config := Config{
+		DBPath: "./data.db",
+	}
+	db, err := store.OpenDatabase(config.DBPath)
+	if err != nil {
+		panic(err)
+	}
+	server = &Server{
+		DB:     db,
+		Config: config,
+	}
 }
 
 func main() {
