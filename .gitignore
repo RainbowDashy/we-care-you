@@ -1,4 +1,4 @@
 # Mac
 .DS_Store
 # db
-backend/data.db
+data.db

@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 
-	"github.com/RainbowDashy/we-care-you/backend/store"
+	"github.com/RainbowDashy/we-care-you/store"
 	"github.com/gin-gonic/gin"
 )
 
