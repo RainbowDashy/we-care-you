@@ -1,3 +1,3 @@
-module backend
+module github.com/RainbowDashy/we-care-you/backend
 
-go 1.18
+go 1.17
