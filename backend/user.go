@@ -7,7 +7,7 @@ type User struct {
 }
 
 func InsertUser(user *User) error {
-	_, err := db.Exec("INSERT INTO user(username, password_hash VALUES(?, ?)", user.Username, user.Password)
+	_, err := db.Exec("INSERT INTO user(username, password_hash) VALUES(?, ?)", user.Username, user.Password)
 	if err != nil {
 		return err
 	}
