@@ -1,38 +1,28 @@
 package main
 
 import (
-	"database/sql"
-
 	"github.com/RainbowDashy/we-care-you/store"
 	"github.com/gin-gonic/gin"
 )
 
 type Config struct {
-	DBPath string
+	dbPath string
 }
 
-type Server struct {
-	DB     *sql.DB
-	Config Config
-}
-
-var server *Server
+var config Config
 
 func init() {
-	config := Config{
-		DBPath: "./data.db",
-	}
-	db, err := store.OpenDatabase(config.DBPath)
-	if err != nil {
-		panic(err)
-	}
-	server = &Server{
-		DB:     db,
-		Config: config,
+	config = Config{
+		dbPath: "./data.db",
 	}
 }
 
 func main() {
+	_, err := store.NewStore(config.dbPath)
+	if err != nil {
+		panic(err.Error())
+	}
+
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
