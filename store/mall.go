@@ -57,3 +57,63 @@ func (s *Store) CreateMall(user *User, items []*Item) error {
 	tx.Commit()
 	return nil
 }
+
+func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
+	rows, err := s.db.Query(`
+		SELECT id, user_id
+		FROM mall
+		WHERE user_id = ?
+	`, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	malls := make([]*Mall, 0)
+	for rows.Next() {
+		mall := &Mall{}
+		if err := rows.Scan(
+			&mall.Id,
+			&mall.UserId,
+		); err != nil {
+			return nil, err
+		}
+		malls = append(malls, mall)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return malls, nil
+}
+
+func (s *Store) GetItemsByMallId(mallId int64) ([]*Item, error) {
+	rows, err := s.db.Query(`
+		SELECT id, mall_id, total, name, description, data
+		FROM item
+		WHERE mall_id = ?
+	`, mallId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	items := make([]*Item, 0)
+	for rows.Next() {
+		item := &Item{}
+		if err := rows.Scan(
+			&item.Id,
+			&item.MallId,
+			&item.Total,
+			&item.Name,
+			&item.Description,
+			&item.Data,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, item)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
