@@ -54,3 +54,53 @@ func TestInsertAndGetUser(t *testing.T) {
 		t.Error("got a wrong user id")
 	}
 }
+
+func TestCreateAndGetMall(t *testing.T) {
+	s := getTestStore(t)
+	defer s.db.Close()
+	user := &User{
+		Username: "yyc",
+		Password: "123456",
+	}
+	s.InsertUser(user)
+	name := []string{"a", "b", "c"}
+	total := []int64{1, 2, 3}
+	description := []string{"A", "B", "C"}
+	items := make([]*Item, 0, 3)
+	for i := 0; i < 3; i += 1 {
+		items = append(items, &Item{
+			Name:        name[i],
+			Total:       total[i],
+			Description: description[i],
+		})
+	}
+	if err := s.CreateMall(user, items); err != nil {
+		t.Fatal(err)
+	}
+	malls, err := s.GetMallsByUserId(user.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(malls) != 1 {
+		t.Error("wrong number of malls")
+	}
+	if malls[0].Id != 1 || malls[0].UserId != user.Id {
+		t.Error("wrong mall")
+	}
+	gotItems, err := s.GetItemsByMallId(malls[0].Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, item := range gotItems {
+		flag := false
+		for i := 0; i < 3; i += 1 {
+			if item.Name == name[i] && item.Total == total[i] && item.Description == description[i] {
+				flag = true
+				break
+			}
+		}
+		if !flag {
+			t.Error("wrong items")
+		}
+	}
+}
