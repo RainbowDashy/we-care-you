@@ -50,6 +50,7 @@ func (s *Store) CreateMall(user *User, items []*Item) error {
 		return err
 	}
 	for _, item := range items {
+		item.MallId = mall.Id
 		if err := s.InsertItem(tx, item); err != nil {
 			return err
 		}
