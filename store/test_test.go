@@ -104,3 +104,77 @@ func TestCreateAndGetMall(t *testing.T) {
 		}
 	}
 }
+
+func TestBuy(t *testing.T) {
+	s := getTestStore(t)
+	defer s.db.Close()
+	seller := &User{
+		Username: "seller",
+		Password: "123456",
+	}
+	customer := &User{
+		Username: "customer",
+		Password: "123456",
+	}
+	s.InsertUser(seller)
+	s.InsertUser(customer)
+	items := []*Item{
+		{Name: "A", Total: 10},
+		{Name: "B", Total: 20},
+		{Name: "C", Total: 30},
+	}
+	s.CreateMall(seller, items)
+	if err := s.Buy(customer, []*MallCustomer{
+		{MallId: 1, UserId: customer.Id, ItemId: 1, BuyCount: 20},
+	}); err == nil {
+		t.Fatal("buycount is larger than total")
+	}
+	if err := s.Buy(customer, []*MallCustomer{
+		{MallId: 1, UserId: customer.Id, ItemId: 1, BuyCount: 5},
+		{MallId: 1, UserId: customer.Id, ItemId: 2, BuyCount: 5},
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	newItems, _ := s.GetItemsByMallId(1)
+	for _, item := range newItems {
+		if item.Name == "A" && item.Total != 5 ||
+			item.Name == "B" && item.Total != 15 ||
+			item.Name == "C" && item.Total != 30 {
+			t.Error("wrong total")
+		}
+	}
+
+	if orders, err := s.GetOrdersByItemId(1); err != nil {
+		t.Fatal(err)
+	} else {
+		if len(orders) != 1 {
+			t.Error("# of orders is wrong")
+		}
+		if orders[0].BuyCount != 5 {
+			t.Error("wrong buy count")
+		}
+	}
+
+	if orders, err := s.GetOrdersByUserId(customer.Id); err != nil {
+		t.Fatal(err)
+	} else {
+		if len(orders) != 2 {
+			t.Error("# of orders is wrong")
+		}
+		if orders[0].MallId != 1 {
+			t.Error("wrong mallid")
+		}
+	}
+
+	if orders, err := s.GetOrdersByMallId(1); err != nil {
+		t.Fatal(err)
+	} else {
+		if len(orders) != 2 {
+			t.Error("# of orders is wrong")
+		}
+		if orders[0].UserId != customer.Id {
+			t.Error("wrong userid")
+		}
+	}
+}
