@@ -6,6 +6,14 @@ type User struct {
 	Password string `json:"password" form:"password"`
 }
 
+func (s *Store) ValidUser(user *User) bool {
+	userInDB, err := s.GetUserByUsername(user.Username)
+	if err != nil {
+		return false
+	}
+	return user.Password == userInDB.Password
+}
+
 func (s *Store) InsertUser(user *User) error {
 	result, err := s.db.Exec("INSERT INTO user(username, password_hash) VALUES(?, ?)", user.Username, user.Password)
 	if err != nil {
