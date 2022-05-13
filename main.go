@@ -18,16 +18,15 @@ func init() {
 }
 
 func main() {
-	_, err := store.NewStore(config.dbPath)
+	s, err := store.NewStore(config.dbPath)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+
+	api := NewAPI(r.Group("/api"), s)
+	api.Register()
+
+	r.Run()
 }
