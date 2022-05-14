@@ -64,6 +64,8 @@ func (a *API) Register() {
 	a.g.GET("/malls", authMiddlewareFunc, a.getMalls)
 	a.g.POST("/malls", authMiddlewareFunc, a.postMalls)
 	a.g.GET("/items", authMiddlewareFunc, a.getItems)
+	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
+	a.g.POST("/orders", authMiddlewareFunc, a.postOrders)
 }
 
 func handleErr(c *gin.Context, code int, message string) {
@@ -162,4 +164,60 @@ func (a *API) getItems(c *gin.Context) {
 		return
 	}
 	c.JSON(200, items)
+}
+
+func (a *API) getOrders(c *gin.Context) {
+	input := &struct {
+		MallId int64 `json:"mallid" form:"mallid"`
+		UserId int64 `json:"userid" form:"userid"`
+		ItemId int64 `json:"itemid" form:"itemid"`
+	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	if input.MallId == 0 && input.UserId == 0 && input.ItemId == 0 {
+		handleErr(c, 400, "id equals to 0")
+		return
+	}
+	var orders []*store.MallCustomer
+	var err error
+	if input.MallId != 0 {
+		orders, err = a.s.GetOrdersByMallId(input.MallId)
+	} else if input.UserId != 0 {
+		orders, err = a.s.GetOrdersByUserId(input.UserId)
+	} else if input.ItemId != 0 {
+		orders, err = a.s.GetOrdersByItemId(input.ItemId)
+	}
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.JSON(200, orders)
+}
+
+func (a *API) postOrders(c *gin.Context) {
+	input := &struct {
+		Orders []*store.MallCustomer `json:"orders"`
+	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	if len(input.Orders) == 0 {
+		handleErr(c, 400, "orders is nil")
+		return
+	}
+	claims := jwt.ExtractClaims(c)
+	user, err := a.s.GetUserByUsername(claims["username"].(string))
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	err = a.s.Buy(user, input.Orders)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.JSON(200, gin.H{})
 }

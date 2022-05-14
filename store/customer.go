@@ -6,10 +6,10 @@ import (
 )
 
 type MallCustomer struct {
-	MallId   int64
-	UserId   int64
-	ItemId   int64
-	BuyCount int64
+	MallId   int64 `json:"mallid"`
+	UserId   int64 `json:"userid"`
+	ItemId   int64 `json:"itemid"`
+	BuyCount int64 `json:"buycount"`
 }
 
 func (s *Store) Buy(user *User, orders []*MallCustomer) error {
