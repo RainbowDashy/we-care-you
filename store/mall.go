@@ -59,17 +59,7 @@ func (s *Store) CreateMall(user *User, items []*Item) error {
 	return nil
 }
 
-func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
-	rows, err := s.db.Query(`
-		SELECT id, user_id
-		FROM mall
-		WHERE user_id = ?
-	`, userId)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
+func scanMallsFromRows(rows *sql.Rows) ([]*Mall, error) {
 	malls := make([]*Mall, 0)
 	for rows.Next() {
 		mall := &Mall{}
@@ -85,6 +75,33 @@ func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 		return nil, err
 	}
 	return malls, nil
+}
+
+func (s *Store) GetMalls() ([]*Mall, error) {
+	rows, err := s.db.Query(`
+		SELECT id, user_id
+		FROM mall
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	return scanMallsFromRows(rows)
+}
+
+func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
+	rows, err := s.db.Query(`
+		SELECT id, user_id
+		FROM mall
+		WHERE user_id = ?
+	`, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	return scanMallsFromRows(rows)
 }
 
 func (s *Store) GetItemsByMallId(mallId int64) ([]*Item, error) {
