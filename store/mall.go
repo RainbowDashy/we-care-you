@@ -3,17 +3,17 @@ package store
 import "database/sql"
 
 type Mall struct {
-	Id     int64
-	UserId int64
+	Id     int64 `json:"id"`
+	UserId int64 `json:"userid"`
 }
 
 type Item struct {
-	Id          int64
-	MallId      int64
-	Total       int64
-	Name        string
-	Description string
-	Data        string
+	Id          int64  `json:"id"`
+	MallId      int64  `json:"mallid"`
+	Total       int64  `json:"total"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Data        string `json:"data"`
 }
 
 func (s *Store) InsertMall(tx *sql.Tx, mall *Mall) error {
@@ -39,24 +39,24 @@ func (s *Store) InsertItem(tx *sql.Tx, item *Item) error {
 	return err
 }
 
-func (s *Store) CreateMall(user *User, items []*Item) error {
+func (s *Store) CreateMall(user *User, items []*Item) (*Mall, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer tx.Rollback()
 	mall := &Mall{UserId: user.Id}
 	if err := s.InsertMall(tx, mall); err != nil {
-		return err
+		return nil, err
 	}
 	for _, item := range items {
 		item.MallId = mall.Id
 		if err := s.InsertItem(tx, item); err != nil {
-			return err
+			return nil, err
 		}
 	}
 	tx.Commit()
-	return nil
+	return mall, nil
 }
 
 func scanMallsFromRows(rows *sql.Rows) ([]*Mall, error) {

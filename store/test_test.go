@@ -74,7 +74,7 @@ func TestCreateAndGetMall(t *testing.T) {
 			Description: description[i],
 		})
 	}
-	if err := s.CreateMall(user, items); err != nil {
+	if _, err := s.CreateMall(user, items); err != nil {
 		t.Fatal(err)
 	}
 	malls, err := s.GetMallsByUserId(user.Id)
