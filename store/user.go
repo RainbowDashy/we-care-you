@@ -6,9 +6,9 @@ import (
 )
 
 type User struct {
-	Id       int64  `json:"id" form:"id"`
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
+	Id       int64
+	Username string
+	Password string
 }
 
 // plaintext password -> hash
