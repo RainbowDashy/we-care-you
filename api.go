@@ -63,6 +63,7 @@ func (a *API) Register() {
 	a.g.POST("/users", a.postUser)
 	a.g.GET("/malls", authMiddlewareFunc, a.getMalls)
 	a.g.POST("/malls", authMiddlewareFunc, a.postMalls)
+	a.g.GET("/items", authMiddlewareFunc, a.getItems)
 }
 
 func handleErr(c *gin.Context, code int, message string) {
@@ -141,4 +142,24 @@ func (a *API) postMalls(c *gin.Context) {
 		return
 	}
 	c.JSON(200, mall)
+}
+
+func (a *API) getItems(c *gin.Context) {
+	input := &struct {
+		MallId int64 `json:"mallid" form:"mallid"`
+	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	if input.MallId == 0 {
+		handleErr(c, 400, "mallid is 0")
+		return
+	}
+	items, err := a.s.GetItemsByMallId(input.MallId)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.JSON(200, items)
 }
