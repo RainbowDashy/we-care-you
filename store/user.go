@@ -1,9 +1,23 @@
 package store
 
+import (
+	"crypto/sha256"
+	"fmt"
+)
+
 type User struct {
 	Id       int64  `json:"id" form:"id"`
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
+}
+
+// plaintext password -> hash
+func NewUser(username, password string) *User {
+	h := sha256.Sum256([]byte(password))
+	return &User{
+		Username: username,
+		Password: fmt.Sprintf("%x", h),
+	}
 }
 
 func (s *Store) ValidUser(user *User) bool {
