@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS mall_customer;
 CREATE TABLE user(
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL  
+    password_hash TEXT NOT NULL,
+    location TEXT
 );
 
 CREATE TABLE mall(

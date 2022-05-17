@@ -14,6 +14,7 @@ type API struct {
 type User struct {
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
+	Location string `json:"location" form:"location"`
 }
 
 func NewAPI(g *gin.RouterGroup, s *store.Store) *API {
@@ -44,7 +45,7 @@ func (a *API) NewAuthMiddleware() *jwt.GinJWTMiddleware {
 			if err := c.ShouldBind(input); err != nil {
 				return nil, jwt.ErrMissingLoginValues
 			}
-			user := store.NewUser(input.Username, input.Password)
+			user := store.NewUser(input.Username, input.Password, input.Location)
 			if a.s.ValidUser(user) {
 				return user, nil
 			}
@@ -76,9 +77,15 @@ func handleErr(c *gin.Context, code int, message string) {
 
 func (a *API) getUser(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
+	user, err := a.s.GetUserByUsername(claims["usrename"].(string))
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
 	c.JSON(200, gin.H{
-		"id":       claims["id"],
-		"username": claims["username"],
+		"id":       user.Id,
+		"username": user.Username,
+		"location": user.Location,
 	})
 }
 
@@ -88,7 +95,7 @@ func (a *API) postUser(c *gin.Context) {
 		handleErr(c, 400, err.Error())
 		return
 	}
-	user := store.NewUser(input.Username, input.Password)
+	user := store.NewUser(input.Username, input.Password, input.Location)
 	if err := a.s.InsertUser(user); err != nil {
 		handleErr(c, 500, err.Error())
 		return

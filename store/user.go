@@ -9,14 +9,16 @@ type User struct {
 	Id       int64
 	Username string
 	Password string
+	Location string
 }
 
 // plaintext password -> hash
-func NewUser(username, password string) *User {
+func NewUser(username, password, location string) *User {
 	h := sha256.Sum256([]byte(password))
 	return &User{
 		Username: username,
 		Password: fmt.Sprintf("%x", h),
+		Location: location,
 	}
 }
 
@@ -29,7 +31,10 @@ func (s *Store) ValidUser(user *User) bool {
 }
 
 func (s *Store) InsertUser(user *User) error {
-	result, err := s.db.Exec("INSERT INTO user(username, password_hash) VALUES(?, ?)", user.Username, user.Password)
+	result, err := s.db.Exec(`
+		INSERT INTO user(username, password_hash, location)
+		VALUES(?, ?, ?)`,
+		user.Username, user.Password, user.Location)
 	if err != nil {
 		return err
 	}
@@ -41,15 +46,19 @@ func (s *Store) InsertUser(user *User) error {
 }
 
 func (s *Store) GetUserById(id int64) (*User, error) {
-	row := s.db.QueryRow("SELECT * FROM user WHERE id = ?", id)
+	row := s.db.QueryRow(`
+		SELECT id, username, password_hash, location
+		FROM user WHERE id = ?`, id)
 	user := &User{}
-	err := row.Scan(&user.Id, &user.Username, &user.Password)
+	err := row.Scan(&user.Id, &user.Username, &user.Password, &user.Location)
 	return user, err
 }
 
 func (s *Store) GetUserByUsername(username string) (*User, error) {
-	row := s.db.QueryRow("SELECT * FROM user WHERE username = ?", username)
+	row := s.db.QueryRow(`
+		SELECT id, username, password_hash, location
+		FROM user WHERE username = ?`, username)
 	user := &User{}
-	err := row.Scan(&user.Id, &user.Username, &user.Password)
+	err := row.Scan(&user.Id, &user.Username, &user.Password, &user.Location)
 	return user, err
 }
