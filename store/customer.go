@@ -12,6 +12,12 @@ type MallCustomer struct {
 	BuyCount int64 `json:"buycount"`
 }
 
+type Customer struct {
+	Id       int64  `json:"id"`
+	Username string `json:"username"`
+	Location string `json:"string"`
+}
+
 func (s *Store) Buy(user *User, orders []*MallCustomer) error {
 	tx, err := s.db.Begin()
 	if err != nil {
@@ -143,4 +149,33 @@ func (s *Store) GetOrdersByItemId(itemId int64) ([]*MallCustomer, error) {
 	}
 	defer rows.Close()
 	return scanOrdersFromRows(rows)
+}
+
+func (s *Store) GetCustomersByMallId(mallId int64) ([]*Customer, error) {
+	rows, err := s.db.Query(`
+		SELECT user.id, user.username, user.location
+		FROM user, mall_customer
+		WHERE mall_customer.mall_id = ? AND user.id = mall_customer.user_id
+	`, mallId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	customers := make([]*Customer, 0)
+	for rows.Next() {
+		customer := &Customer{}
+		if err := rows.Scan(
+			&customer.Id,
+			&customer.Username,
+			&customer.Location,
+		); err != nil {
+			return nil, err
+		}
+		customers = append(customers, customer)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return customers, nil
 }

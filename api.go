@@ -71,6 +71,7 @@ func (a *API) Register() {
 	a.g.GET("/items/:id", authMiddlewareFunc, a.getItemById)
 	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
 	a.g.POST("/orders", authMiddlewareFunc, a.postOrders)
+	a.g.GET("/customers", authMiddlewareFunc, a.getCustomers)
 }
 
 func handleErr(c *gin.Context, code int, message string) {
@@ -290,4 +291,20 @@ func (a *API) postOrders(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{})
+}
+
+func (a *API) getCustomers(c *gin.Context) {
+	input := &struct {
+		MallId int64 `json:"mallid" form:"mallid"`
+	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	customers, err := a.s.GetCustomersByMallId(input.MallId)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.JSON(200, customers)
 }
