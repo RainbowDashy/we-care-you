@@ -63,6 +63,7 @@ func (a *API) Register() {
 		c.Header("Access-Control-Allow-Methods", "POST, GET, PATCH")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization")
 		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Next()
 	})
 	authMiddleware := a.NewAuthMiddleware()
 	authMiddlewareFunc := authMiddleware.MiddlewareFunc()
