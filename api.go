@@ -173,6 +173,10 @@ func (a *API) patchMall(c *gin.Context) {
 		EndTime   int64 `json:"endtime"`
 		State     int64 `json:"state"`
 	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
 	mallId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		handleErr(c, 400, err.Error())
