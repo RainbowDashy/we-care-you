@@ -11,6 +11,7 @@ type Item struct {
 	Id          int64  `json:"id"`
 	MallId      int64  `json:"mallid"`
 	Total       int64  `json:"total"`
+	Price       int64  `json:"price"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Data        string `json:"data"`
@@ -27,10 +28,10 @@ func (s *Store) InsertMall(tx *sql.Tx, mall *Mall) error {
 
 func (s *Store) InsertItem(tx *sql.Tx, item *Item) error {
 	result, err := tx.Exec(`
-		INSERT INTO item(mall_id, total, name, description, data)
-		VALUES(?, ?, ?, ?, ?)
+		INSERT INTO item(mall_id, total, price, name, description, data)
+		VALUES(?, ?, ?, ?, ?, ?)
 	`,
-		item.MallId, item.Total, item.Name, item.Description, item.Data,
+		item.MallId, item.Total, item.Price, item.Name, item.Description, item.Data,
 	)
 	if err != nil {
 		return err
@@ -104,9 +105,31 @@ func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 	return scanMallsFromRows(rows)
 }
 
+func (s *Store) GetItemById(itemId int64) (*Item, error) {
+	row := s.db.QueryRow(`
+		SELECT id, mall_id, total, price, name, description, data
+		FROM item
+		WHERE id = ?
+	`, itemId)
+
+	item := &Item{}
+	if err := row.Scan(
+		&item.Id,
+		&item.MallId,
+		&item.Total,
+		&item.Price,
+		&item.Name,
+		&item.Description,
+		&item.Data,
+	); err != nil {
+		return nil, err
+	}
+	return item, nil
+}
+
 func (s *Store) GetItemsByMallId(mallId int64) ([]*Item, error) {
 	rows, err := s.db.Query(`
-		SELECT id, mall_id, total, name, description, data
+		SELECT id, mall_id, total, price, name, description, data
 		FROM item
 		WHERE mall_id = ?
 	`, mallId)
@@ -122,6 +145,7 @@ func (s *Store) GetItemsByMallId(mallId int64) ([]*Item, error) {
 			&item.Id,
 			&item.MallId,
 			&item.Total,
+			&item.Price,
 			&item.Name,
 			&item.Description,
 			&item.Data,

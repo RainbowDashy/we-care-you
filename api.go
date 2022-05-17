@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/RainbowDashy/we-care-you/store"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
@@ -65,6 +67,7 @@ func (a *API) Register() {
 	a.g.GET("/malls", authMiddlewareFunc, a.getMalls)
 	a.g.POST("/malls", authMiddlewareFunc, a.postMalls)
 	a.g.GET("/items", authMiddlewareFunc, a.getItems)
+	a.g.GET("/items/:id", authMiddlewareFunc, a.getItemById)
 	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
 	a.g.POST("/orders", authMiddlewareFunc, a.postOrders)
 }
@@ -171,6 +174,20 @@ func (a *API) getItems(c *gin.Context) {
 		return
 	}
 	c.JSON(200, items)
+}
+
+func (a *API) getItemById(c *gin.Context) {
+	itemId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	item, err := a.s.GetItemById(itemId)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.JSON(200, item)
 }
 
 func (a *API) getOrders(c *gin.Context) {

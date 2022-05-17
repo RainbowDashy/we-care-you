@@ -19,6 +19,7 @@ CREATE TABLE item(
     id INTEGER PRIMARY KEY,
     mall_id INTEGER NOT NULL,
     total INTEGER NOT NULL,
+    price INTEGER NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
     data TEXT
