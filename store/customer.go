@@ -15,7 +15,7 @@ type MallCustomer struct {
 type Customer struct {
 	Id       int64  `json:"id"`
 	Username string `json:"username"`
-	Location string `json:"string"`
+	Location string `json:"location"`
 }
 
 func (s *Store) Buy(user *User, orders []*MallCustomer) error {
