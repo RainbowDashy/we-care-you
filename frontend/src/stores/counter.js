@@ -14,3 +14,11 @@ export const useCounterStore = defineStore({
     },
   },
 })
+
+export const useUserStore = defineStore("user", {
+  state: () => ({
+    username: "",
+    password: "",
+    location: "",
+  }),
+})
