@@ -5,6 +5,12 @@ import "database/sql"
 type Mall struct {
 	Id     int64 `json:"id"`
 	UserId int64 `json:"userid"`
+	// BeginTime and EndTime are stored in format of unix timestamp
+	BeginTime int64 `json:"begintime"`
+	EndTime   int64 `json:"endtime"`
+	// state == 0 means the mall is cancled
+	// state == 1 means the mall is open
+	State int64 `json:"state"`
 }
 
 type Item struct {
@@ -18,12 +24,32 @@ type Item struct {
 }
 
 func (s *Store) InsertMall(tx *sql.Tx, mall *Mall) error {
-	result, err := tx.Exec("INSERT INTO mall(user_id) VALUES(?)", mall.UserId)
+	result, err := tx.Exec(`
+		INSERT INTO mall(user_id, begin_time, end_time, state)
+		VALUES(?, ?, ?, ?)
+	`,
+		mall.UserId,
+		mall.BeginTime,
+		mall.EndTime,
+		mall.State,
+	)
 	if err != nil {
 		return err
 	}
 	mall.Id, err = result.LastInsertId()
 	return err
+}
+
+func (s *Store) UpdateMall(mall *Mall) error {
+	_, err := s.db.Exec(`
+		UPDATE mall
+		SET begin_time = ?, end_time = ?, state = ?
+		WHERE id = ?
+	`, mall.BeginTime, mall.EndTime, mall.State, mall.Id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *Store) InsertItem(tx *sql.Tx, item *Item) error {
@@ -40,26 +66,26 @@ func (s *Store) InsertItem(tx *sql.Tx, item *Item) error {
 	return err
 }
 
-func (s *Store) CreateMall(user *User, items []*Item) (*Mall, error) {
+func (s *Store) CreateMall(user *User, mall *Mall, items []*Item) error {
 	tx, err := s.db.Begin()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer tx.Rollback()
-	mall := &Mall{UserId: user.Id}
 	if err := s.InsertMall(tx, mall); err != nil {
-		return nil, err
+		return err
 	}
 	for _, item := range items {
 		item.MallId = mall.Id
 		if err := s.InsertItem(tx, item); err != nil {
-			return nil, err
+			return err
 		}
 	}
 	tx.Commit()
-	return mall, nil
+	return nil
 }
 
+// scan order is Id, UserId, BeginTime, EndTime and State
 func scanMallsFromRows(rows *sql.Rows) ([]*Mall, error) {
 	malls := make([]*Mall, 0)
 	for rows.Next() {
@@ -67,6 +93,9 @@ func scanMallsFromRows(rows *sql.Rows) ([]*Mall, error) {
 		if err := rows.Scan(
 			&mall.Id,
 			&mall.UserId,
+			&mall.BeginTime,
+			&mall.EndTime,
+			&mall.State,
 		); err != nil {
 			return nil, err
 		}
@@ -80,7 +109,7 @@ func scanMallsFromRows(rows *sql.Rows) ([]*Mall, error) {
 
 func (s *Store) GetMalls() ([]*Mall, error) {
 	rows, err := s.db.Query(`
-		SELECT id, user_id
+		SELECT id, user_id, begin_time, end_time, state
 		FROM mall
 	`)
 	if err != nil {
@@ -93,7 +122,7 @@ func (s *Store) GetMalls() ([]*Mall, error) {
 
 func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 	rows, err := s.db.Query(`
-		SELECT id, user_id
+		SELECT id, user_id, begin_time, end_time, state
 		FROM mall
 		WHERE user_id = ?
 	`, userId)
@@ -103,6 +132,24 @@ func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 	defer rows.Close()
 
 	return scanMallsFromRows(rows)
+}
+
+func (s *Store) GetMallById(mallId int64) (*Mall, error) {
+	rows, err := s.db.Query(`
+		SELECT id, user_id, begin_time, end_time, state
+		FROM mall
+		WHERE id = ?
+	`, mallId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	malls, err := scanMallsFromRows(rows)
+	if err != nil {
+		return nil, err
+	}
+	return malls[0], nil
 }
 
 func (s *Store) GetItemById(itemId int64) (*Item, error) {

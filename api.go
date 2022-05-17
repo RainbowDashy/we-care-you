@@ -66,6 +66,7 @@ func (a *API) Register() {
 	a.g.POST("/users", a.postUser)
 	a.g.GET("/malls", authMiddlewareFunc, a.getMalls)
 	a.g.POST("/malls", authMiddlewareFunc, a.postMalls)
+	a.g.PATCH("/malls/:id", authMiddlewareFunc, a.patchMall)
 	a.g.GET("/items", authMiddlewareFunc, a.getItems)
 	a.g.GET("/items/:id", authMiddlewareFunc, a.getItemById)
 	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
@@ -132,7 +133,10 @@ func (a *API) getMalls(c *gin.Context) {
 
 func (a *API) postMalls(c *gin.Context) {
 	input := &struct {
-		Items []*store.Item `json:"items"`
+		BeginTime int64         `json:"begintime"`
+		EndTime   int64         `json:"endtime"`
+		State     int64         `json:"state"`
+		Items     []*store.Item `json:"items"`
 	}{}
 	if err := c.ShouldBind(input); err != nil {
 		handleErr(c, 400, err.Error())
@@ -148,12 +152,54 @@ func (a *API) postMalls(c *gin.Context) {
 		handleErr(c, 500, err.Error())
 		return
 	}
-	mall, err := a.s.CreateMall(user, input.Items)
+	mall := &store.Mall{
+		UserId:    user.Id,
+		BeginTime: input.BeginTime,
+		EndTime:   input.EndTime,
+		State:     input.State,
+	}
+	err = a.s.CreateMall(user, mall, input.Items)
 	if err != nil {
 		handleErr(c, 500, err.Error())
 		return
 	}
 	c.JSON(200, mall)
+}
+
+func (a *API) patchMall(c *gin.Context) {
+	input := &struct {
+		BeginTime int64 `json:"begintime"`
+		EndTime   int64 `json:"endtime"`
+		State     int64 `json:"state"`
+	}{}
+	mallId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	mall, err := a.s.GetMallById(mallId)
+	if err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	claims := jwt.ExtractClaims(c)
+	userName := claims["username"].(string)
+	user, err := a.s.GetUserByUsername(userName)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	if mall.UserId != user.Id {
+		handleErr(c, 400, "Unauthorized")
+		return
+	}
+	mall.BeginTime = input.BeginTime
+	mall.EndTime = input.EndTime
+	mall.State = input.State
+	if err := a.s.UpdateMall(mall); err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
 }
 
 func (a *API) getItems(c *gin.Context) {

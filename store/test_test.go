@@ -74,7 +74,13 @@ func TestCreateAndGetMall(t *testing.T) {
 			Description: description[i],
 		})
 	}
-	if _, err := s.CreateMall(user, items); err != nil {
+	mall := &Mall{
+		UserId:    user.Id,
+		BeginTime: 0,
+		EndTime:   10,
+		State:     1,
+	}
+	if err := s.CreateMall(user, mall, items); err != nil {
 		t.Fatal(err)
 	}
 	malls, err := s.GetMallsByUserId(user.Id)
@@ -123,7 +129,13 @@ func TestBuy(t *testing.T) {
 		{Name: "B", Total: 20},
 		{Name: "C", Total: 30},
 	}
-	s.CreateMall(seller, items)
+	mall := &Mall{
+		UserId:    seller.Id,
+		BeginTime: 0,
+		EndTime:   10,
+		State:     1,
+	}
+	s.CreateMall(seller, mall, items)
 	if err := s.Buy(customer, []*MallCustomer{
 		{MallId: 1, UserId: customer.Id, ItemId: 1, BuyCount: 20},
 	}); err == nil {

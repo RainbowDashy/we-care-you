@@ -12,7 +12,10 @@ CREATE TABLE user(
 
 CREATE TABLE mall(
     id INTEGER PRIMARY KEY,
-    user_id INTEGER NOT NULL
+    user_id INTEGER NOT NULL,
+    begin_time INTEGER,
+    end_time INTEGER,
+    state INTEGER
 );
 
 CREATE TABLE item(
