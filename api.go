@@ -6,11 +6,13 @@ import (
 	"github.com/RainbowDashy/we-care-you/store"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type API struct {
 	g *gin.RouterGroup
 	s *store.Store
+	l *zap.Logger
 }
 
 type User struct {
@@ -19,10 +21,11 @@ type User struct {
 	Location string `json:"location" form:"location"`
 }
 
-func NewAPI(g *gin.RouterGroup, s *store.Store) *API {
+func NewAPI(g *gin.RouterGroup, s *store.Store, l *zap.Logger) *API {
 	return &API{
 		g: g,
 		s: s,
+		l: l,
 	}
 }
 
@@ -89,7 +92,7 @@ func handleErr(c *gin.Context, code int, message string) {
 
 func (a *API) getUser(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
-	user, err := a.s.GetUserByUsername(claims["usrename"].(string))
+	user, err := a.s.GetUserByUsername(claims["username"].(string))
 	if err != nil {
 		handleErr(c, 500, err.Error())
 		return
@@ -109,6 +112,7 @@ func (a *API) postUser(c *gin.Context) {
 	}
 	user := store.NewUser(input.Username, input.Password, input.Location)
 	if err := a.s.InsertUser(user); err != nil {
+		a.l.Error("failed to insert user", zap.Error(err))
 		handleErr(c, 500, err.Error())
 		return
 	}
