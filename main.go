@@ -27,6 +27,19 @@ func main() {
 
 	r := gin.Default()
 
+	// cors
+	r.Use(func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", c.GetHeader("Origin"))
+		c.Header("Access-Control-Allow-Methods", "POST, GET, PATCH")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization")
+		c.Header("Access-Control-Allow-Credentials", "true")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	})
+
 	api := NewAPI(r.Group("/api"), s, l)
 	api.Register()
 

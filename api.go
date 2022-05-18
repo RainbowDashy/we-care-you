@@ -61,13 +61,6 @@ func (a *API) NewAuthMiddleware() *jwt.GinJWTMiddleware {
 }
 
 func (a *API) Register() {
-	a.g.Use(func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", c.GetHeader("Origin"))
-		c.Header("Access-Control-Allow-Methods", "POST, GET, PATCH")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization")
-		c.Header("Access-Control-Allow-Credentials", "true")
-		c.Next()
-	})
 	authMiddleware := a.NewAuthMiddleware()
 	authMiddlewareFunc := authMiddleware.MiddlewareFunc()
 	a.g.POST("/login", authMiddleware.LoginHandler)
