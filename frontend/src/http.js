@@ -8,7 +8,7 @@ function injectToken(data) {
   let store = useUserStore()
   if (store.token !== "") {
     data.headers = {
-      "Authorization": `bearer ${store.token}`,
+      "Authorization": `Bearer ${store.token}`,
       ...data.headers
     }
   }
