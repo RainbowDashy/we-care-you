@@ -216,6 +216,7 @@ func (a *API) patchMall(c *gin.Context) {
 		handleErr(c, 500, err.Error())
 		return
 	}
+	c.JSON(200, gin.H{})
 }
 
 func (a *API) getItems(c *gin.Context) {
