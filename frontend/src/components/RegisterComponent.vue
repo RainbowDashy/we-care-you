@@ -1,13 +1,16 @@
 <script setup>
-import { useUserStore } from "../stores/counter.js"
+import http from "../http.js";
+import { useUserStore } from "../stores/user.js"
 const user = useUserStore()
 const register = async () => {
-  console.log("reg")
-  const res = await fetch("http://127.0.0.1:8080/api/users", {
-    method: "POST",
-    body: JSON.stringify(user.$state),
-  })
-  console.log(res)
+  try {
+    const res = await http.post("/users", {
+      body: JSON.stringify(user.$state),
+    });
+    console.log(await res.json())
+  } catch(err) {
+    console.log(err);
+  }
 }
 </script>
 <template>
