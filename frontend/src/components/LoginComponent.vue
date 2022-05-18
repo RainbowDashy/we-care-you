@@ -1,15 +1,14 @@
 <script setup>
 import { useUserStore } from "../stores/user.js"
-const user = useUserStore();
+const user = useUserStore()
 
 const login = async () => {
   try {
-    await user.login();
-  } catch(err) {
+    await user.login()
+  } catch (err) {
     console.log(err)
   }
 }
-
 </script>
 <template>
   <div>

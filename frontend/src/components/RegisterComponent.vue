@@ -1,15 +1,15 @@
 <script setup>
-import http from "../http.js";
+import http from "../http.js"
 import { useUserStore } from "../stores/user.js"
 const user = useUserStore()
 const register = async () => {
   try {
     const res = await http.post("/users", {
       body: JSON.stringify(user.$state),
-    });
+    })
     console.log(await res.json())
-  } catch(err) {
-    console.log(err);
+  } catch (err) {
+    console.log(err)
   }
 }
 </script>

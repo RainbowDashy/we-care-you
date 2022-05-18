@@ -18,10 +18,10 @@ export const useUserStore = defineStore("user", {
           username: this.username,
           password: this.password,
         }),
-      });
-      let data = await res.json();
-      this.token = data.token;
-      window.localStorage.setItem("token", data.token);
+      })
+      let data = await res.json()
+      this.token = data.token
+      window.localStorage.setItem("token", data.token)
     },
   },
 })
