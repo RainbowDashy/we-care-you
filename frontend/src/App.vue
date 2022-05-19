@@ -22,7 +22,7 @@ onMounted(() => {
     />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld :msg="`Hi, ${user.username}`" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>

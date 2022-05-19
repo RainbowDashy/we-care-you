@@ -1,12 +1,18 @@
 <script setup>
+import { reactive } from "vue";
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
 const user = useUserStore()
 const router = useRouter()
 
+let input =reactive({
+  username: "",
+  password: "",
+})
+
 const login = async () => {
   try {
-    await user.login()
+    await user.login(input.username, input.password)
   } catch (err) {
     console.log(err)
     return
@@ -17,9 +23,8 @@ const login = async () => {
 <template>
   <div>
     <h1>Login Now!</h1>
-    <p v-if="user.logined">logined</p>
-    <input v-model="user.username" placeholder="username" />
-    <input v-model="user.password" placeholder="password" type="password" />
+    <input v-model="input.username" placeholder="username" />
+    <input v-model="input.password" placeholder="password" type="password" />
     <div @click="login">login</div>
   </div>
 </template>
