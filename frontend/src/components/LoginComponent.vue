@@ -2,6 +2,7 @@
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
+import { NButton, NForm, NFormItem, NInput } from "naive-ui"
 const user = useUserStore()
 const router = useRouter()
 
@@ -23,9 +24,24 @@ const login = async () => {
 <template>
   <div>
     <h1>Login Now!</h1>
-    <input v-model="input.username" placeholder="username" />
-    <input v-model="input.password" placeholder="password" type="password" />
-    <div @click="login">login</div>
+    <n-form :label-width="80">
+      <n-form-item>
+        <n-input
+          v-model:value="input.username"
+          placeholder="username"
+        ></n-input>
+      </n-form-item>
+      <n-form-item>
+        <n-input
+          v-model:value="input.password"
+          placeholder="password"
+          type="password"
+        ></n-input>
+      </n-form-item>
+      <n-form-item>
+        <n-button attr-type="button" @click="login">Login</n-button>
+      </n-form-item>
+    </n-form>
   </div>
 </template>
 
