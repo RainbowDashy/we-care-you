@@ -3,25 +3,40 @@ import http from "../http"
 
 export const useUserStore = defineStore("user", {
   state: () => ({
+    id: 0,
     username: "",
-    password: "",
     location: "",
-    token: window.localStorage.getItem("token") || "",
+    token: "",
   }),
   getters: {
     logined: (state) => state.token !== "",
   },
   actions: {
-    async login() {
+    async fetch() {
+      let token = window.localStorage.getItem("token")
+      if (!token) {
+        return
+      }
+      this.token = token
+      let res = await http.get("/users")
+      let data = await res.json()
+      this.id = data.id
+      this.username = data.username
+      this.location = data.location
+    },
+    async login(username, password) {
       let res = await http.post("/login", {
         body: JSON.stringify({
-          username: this.username,
-          password: this.password,
+          username: username,
+          password: password,
         }),
       })
       let data = await res.json()
       this.token = data.token
       window.localStorage.setItem("token", data.token)
+
+      // fetch other user information
+      this.fetch()
     },
   },
 })

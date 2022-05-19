@@ -34,11 +34,16 @@ export default {
   handleErr(res) {
     return new Promise((resolve, reject) => {
       if (res.status >= 400) {
-        reject(res);
+        return res.json().then((msg) =>
+          reject({
+            code: res.status,
+            ...msg,
+          })
+        )
       } else {
-        resolve(res);
+        resolve(res)
       }
-    });
+    })
   },
   get(url = "", data = {}) {
     injectToken(data)
