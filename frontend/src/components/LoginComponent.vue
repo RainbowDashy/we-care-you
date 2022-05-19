@@ -1,11 +1,11 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
 const user = useUserStore()
 const router = useRouter()
 
-let input =reactive({
+let input = reactive({
   username: "",
   password: "",
 })
