@@ -21,6 +21,7 @@ func init() {
 func main() {
 	s, err := store.NewStore(config.dbPath)
 	l, _ := zap.NewDevelopment()
+	defer l.Sync()
 	if err != nil {
 		panic(err.Error())
 	}
