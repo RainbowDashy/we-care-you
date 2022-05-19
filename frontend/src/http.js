@@ -31,12 +31,21 @@ export default {
   concatURL(url) {
     return `${this.baseURL}${url}`
   },
+  handleErr(res) {
+    return new Promise((resolve, reject) => {
+      if (res.status >= 400) {
+        reject(res);
+      } else {
+        resolve(res);
+      }
+    });
+  },
   get(url = "", data = {}) {
     injectToken(data)
     return fetch(this.concatURL(url), {
       method: "GET",
       ...data,
-    })
+    }).then(this.handleErr)
   },
   post(url = "", data = {}) {
     injectToken(data)
@@ -44,7 +53,7 @@ export default {
     return fetch(this.concatURL(url), {
       method: "POST",
       ...data,
-    })
+    }).then(this.handleErr)
   },
   patch(url = "", data = {}) {
     injectToken(data)
@@ -52,6 +61,6 @@ export default {
     return fetch(this.concatURL(url), {
       method: "PATCH",
       ...data,
-    })
+    }).then(this.handleErr)
   },
 }
