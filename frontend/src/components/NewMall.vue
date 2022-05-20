@@ -1,5 +1,11 @@
 <script setup>
-import { NButton, NDatePicker, NDynamicInput, NInput } from "naive-ui"
+import {
+  NButton,
+  NDatePicker,
+  NDynamicInput,
+  NInput,
+  NInputNumber,
+} from "naive-ui"
 import { ref } from "vue"
 import http from "../http"
 const customValue = ref([])
@@ -7,8 +13,8 @@ const endtime = ref()
 const onCreate = () => {
   return {
     name: "",
-    total: "",
-    price: "",
+    total: undefined,
+    price: undefined,
     description: "",
     data: "",
   }
@@ -18,17 +24,19 @@ const submit = async () => {
     begintime: Date.now(),
     endtime: endtime.value,
     state: 1,
-    items: customValue.value,
+    items: customValue.value.map((v) => ({
+      ...v,
+      price: Math.trunc(v.price * 100),
+    })),
   }
   try {
-    await http.post("/users", {
+    await http.post("/malls", {
       body: JSON.stringify(payload),
     })
   } catch (err) {
     console.log(err)
     return
   }
-  console.log(JSON.stringify(customValue.value))
 }
 </script>
 
@@ -40,8 +48,10 @@ const submit = async () => {
       <template #default="{ value }">
         <div>
           <n-input placeholder="name" v-model:value="value.name" />
-          <n-input placeholder="total" v-model:value="value.total" />
-          <n-input placeholder="price" v-model:value="value.price" />
+          <n-input-number placeholder="total" v-model:value="value.total" />
+          <n-input-number placeholder="price" v-model:value="value.price">
+            <template #prefix>￥</template>
+          </n-input-number>
           <n-input
             placeholder="description"
             v-model:value="value.description"
