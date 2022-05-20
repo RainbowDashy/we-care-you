@@ -35,6 +35,11 @@ const router = createRouter({
       name: "login",
       component: LoginView,
     },
+    {
+      path: "/mall/new",
+      name: "new mall",
+      component: () => import("../components/NewMall.vue"),
+    },
   ],
 })
 

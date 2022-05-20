@@ -8,7 +8,7 @@ type Mall struct {
 	// BeginTime and EndTime are stored in format of unix timestamp
 	BeginTime int64 `json:"begintime"`
 	EndTime   int64 `json:"endtime"`
-	// state == 0 means the mall is cancled
+	// state == 0 means the mall is canceled
 	// state == 1 means the mall is open
 	State int64 `json:"state"`
 }
