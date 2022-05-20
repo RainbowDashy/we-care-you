@@ -24,6 +24,19 @@ const menuOptions = [
         RouterLink,
         {
           to: {
+            name: "malls",
+          },
+        },
+        { default: () => "Malls" }
+      ),
+    key: "router-malls",
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
             name: "register",
           },
         },
