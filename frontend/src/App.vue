@@ -1,7 +1,8 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router"
+import { RouterView } from "vue-router"
 import { useUserStore } from "./stores/user"
 import { onMounted } from "vue"
+import NavigationComponent from "./components/NavigationComponent.vue"
 
 const user = useUserStore()
 
@@ -13,12 +14,8 @@ onMounted(() => {
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/register" v-if="!user.logined">Register</RouterLink>
-      <RouterLink to="/login" v-if="!user.logined">Login</RouterLink>
+      <NavigationComponent />
     </nav>
   </header>
-
   <RouterView />
 </template>
