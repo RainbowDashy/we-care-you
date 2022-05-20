@@ -18,11 +18,17 @@ export const useUserStore = defineStore("user", {
         return
       }
       this.token = token
-      let res = await http.get("/users")
-      let data = await res.json()
-      this.id = data.id
-      this.username = data.username
-      this.location = data.location
+      try {
+        let res = await http.get("/users")
+        let data = await res.json()
+        this.id = data.id
+        this.username = data.username
+        this.location = data.location
+      } catch {
+        // token is expired
+        this.token = ""
+        window.localStorage.removeItem("token")
+      }
     },
     async login(username, password) {
       let res = await http.post("/login", {
@@ -32,7 +38,6 @@ export const useUserStore = defineStore("user", {
         }),
       })
       let data = await res.json()
-      this.token = data.token
       window.localStorage.setItem("token", data.token)
 
       // fetch other user information
