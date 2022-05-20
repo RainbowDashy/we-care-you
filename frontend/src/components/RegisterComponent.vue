@@ -3,7 +3,7 @@ import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import http from "../http.js"
 import { useUserStore } from "../stores/user.js"
-
+import { NButton, NForm, NFormItem, NInput } from "naive-ui"
 const router = useRouter()
 const user = useUserStore()
 const input = reactive({
@@ -34,21 +34,26 @@ const registerAndLogin = async () => {
 <template>
   <div>
     <h1>Register Now!</h1>
-    <form>
-      <input
-        v-model="input.username"
-        placeholder="username"
-        autocomplete="username "
-      />
-      <input
-        v-model="input.password"
-        placeholder="password"
-        type="password"
-        autocomplete="password"
-      />
-      <input v-model="input.location" placeholder="location" />
-      <div @click="registerAndLogin">Register</div>
-    </form>
+    <n-form>
+      <n-form-item>
+        <n-input v-model:value="input.username" placeholder="username" />
+      </n-form-item>
+      <n-form-item>
+        <n-input
+          v-model:value="input.password"
+          placeholder="password"
+          type="password"
+        />
+      </n-form-item>
+      <n-form-item>
+        <n-input v-model:value="input.location" placeholder="location" />
+      </n-form-item>
+      <n-form-item>
+        <n-button attr-type="button" @click="registerAndLogin">
+          Register
+        </n-button>
+      </n-form-item>
+    </n-form>
   </div>
 </template>
 
