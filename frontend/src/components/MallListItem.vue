@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
 import { NCard, NTime, NSpace, NButton } from "naive-ui"
+import { useRouter } from "vue-router"
 
 const props = defineProps({
   mall: {
@@ -25,6 +26,12 @@ const fetchItems = async () => {
   }
 }
 
+const router = useRouter()
+
+const goToMallView = () => {
+  router.push(`/malls/${props.mall.id}`)
+}
+
 onMounted(fetchItems)
 </script>
 
@@ -38,7 +45,7 @@ onMounted(fetchItems)
       <p>团长：用户{{ mall.userid }}</p>
       <p>{{ mallDescription }}</p>
       <template #action>
-        <n-button>浏览</n-button>
+        <n-button @click="goToMallView">浏览</n-button>
       </template>
     </n-card>
   </div>
