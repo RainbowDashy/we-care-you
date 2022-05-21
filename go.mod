@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/appleboy/gin-jwt/v2 v2.8.0
+	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/mattn/go-sqlite3 v1.14.12
 	go.uber.org/zap v1.21.0

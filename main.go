@@ -2,19 +2,22 @@ package main
 
 import (
 	"github.com/RainbowDashy/we-care-you/store"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 type Config struct {
-	dbPath string
+	dbPath       string
+	frontendPath string
 }
 
 var config Config
 
 func init() {
 	config = Config{
-		dbPath: "./data.db",
+		dbPath:       "./data.db",
+		frontendPath: "./frontend/dist",
 	}
 }
 
@@ -27,6 +30,8 @@ func main() {
 	}
 
 	r := gin.Default()
+
+	r.Use(static.Serve("/", static.LocalFile(config.frontendPath, true)))
 
 	// cors
 	r.Use(func(c *gin.Context) {
@@ -43,6 +48,10 @@ func main() {
 
 	api := NewAPI(r.Group("/api"), s, l)
 	api.Register()
+
+	r.NoRoute(func(c *gin.Context) {
+		c.File(config.frontendPath + "/index.html")
+	})
 
 	r.Run()
 }
