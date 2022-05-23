@@ -33,21 +33,21 @@ const registerAndLogin = async () => {
 </script>
 <template>
   <div>
-    <h1>Register Now!</h1>
-    <p>Create your new account</p>
+    <h1>注册</h1>
+    <p>创建新的账户</p>
     <n-form>
       <n-form-item>
-        <n-input v-model:value="input.username" placeholder="username" />
+        <n-input v-model:value="input.username" placeholder="用户名" />
       </n-form-item>
       <n-form-item>
         <n-input
           v-model:value="input.password"
-          placeholder="password"
+          placeholder="密码"
           type="password"
         />
       </n-form-item>
       <n-form-item>
-        <n-input v-model:value="input.location" placeholder="location" />
+        <n-input v-model:value="input.location" placeholder="地址" />
       </n-form-item>
       <n-form-item>
         <n-button
@@ -56,7 +56,7 @@ const registerAndLogin = async () => {
           size="large"
           @click="registerAndLogin"
         >
-          Register
+          注册
         </n-button>
       </n-form-item>
     </n-form>

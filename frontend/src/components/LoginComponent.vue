@@ -23,25 +23,25 @@ const login = async () => {
 </script>
 <template>
   <div>
-    <h1>Welcome back</h1>
-    <p>Login to your account</p>
+    <h1>欢迎使用</h1>
+    <p>账户登录</p>
     <n-form :label-width="80">
       <n-form-item>
         <n-input
           v-model:value="input.username"
-          placeholder="username"
+          placeholder="用户名"
         ></n-input>
       </n-form-item>
       <n-form-item>
         <n-input
           v-model:value="input.password"
-          placeholder="password"
+          placeholder="密码"
           type="password"
         ></n-input>
       </n-form-item>
       <n-form-item>
         <n-button attr-type="button" color="#426E52" size="large" @click="login"
-          >Login</n-button
+          >登录</n-button
         >
       </n-form-item>
     </n-form>

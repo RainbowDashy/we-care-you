@@ -44,21 +44,21 @@ const submit = async () => {
   <main>
     <n-date-picker v-model:value="endtime" type="datetime" />
     <n-dynamic-input v-model:value="customValue" :on-create="onCreate">
-      <template #create-button-default> New Item </template>
+      <template #create-button-default>创建新的团购 </template>
       <template #default="{ value }">
         <div>
-          <n-input placeholder="name" v-model:value="value.name" />
-          <n-input-number placeholder="total" v-model:value="value.total" />
-          <n-input-number placeholder="price" v-model:value="value.price">
+          <n-input placeholder="商品名称" v-model:value="value.name" />
+          <n-input-number placeholder="商品总量" v-model:value="value.total" />
+          <n-input-number placeholder="商品价格" v-model:value="value.price">
             <template #prefix>￥</template>
           </n-input-number>
           <n-input
-            placeholder="description"
+            placeholder="商品描述"
             v-model:value="value.description"
           />
         </div>
       </template>
     </n-dynamic-input>
-    <n-button color="#227700" @click="submit"> Submit </n-button>
+    <n-button color="#227700" @click="submit"> 提交 </n-button>
   </main>
 </template>
