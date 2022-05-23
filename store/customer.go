@@ -16,6 +16,9 @@ type Customer struct {
 	Id       int64  `json:"id"`
 	Username string `json:"username"`
 	Location string `json:"location"`
+	ItemId   int64  `json:"itemid"`
+	MallId   int64  `json:"mallid"`
+	BuyCount int64  `json:"buycount"`
 }
 
 func (s *Store) Buy(user *User, orders []*MallCustomer) error {
@@ -153,7 +156,10 @@ func (s *Store) GetOrdersByItemId(itemId int64) ([]*MallCustomer, error) {
 
 func (s *Store) GetCustomersByMallId(mallId int64) ([]*Customer, error) {
 	rows, err := s.db.Query(`
-		SELECT user.id, user.username, user.location
+		SELECT user.id, user.username, user.location, 
+					 mall_customer.mall_id,
+					 mall_customer.mall_item_id,
+					 mall_customer.buy_count
 		FROM user, mall_customer
 		WHERE mall_customer.mall_id = ? AND user.id = mall_customer.user_id
 	`, mallId)
@@ -169,6 +175,9 @@ func (s *Store) GetCustomersByMallId(mallId int64) ([]*Customer, error) {
 			&customer.Id,
 			&customer.Username,
 			&customer.Location,
+			&customer.MallId,
+			&customer.ItemId,
+			&customer.BuyCount,
 		); err != nil {
 			return nil, err
 		}

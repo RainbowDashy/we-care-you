@@ -75,6 +75,7 @@ func (a *API) Register() {
 	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
 	a.g.POST("/orders", authMiddlewareFunc, a.postOrders)
 	a.g.GET("/customers", authMiddlewareFunc, a.getCustomers)
+	a.g.GET("/excel", a.getExcel)
 }
 
 func handleErr(c *gin.Context, code int, message string) {
@@ -316,4 +317,22 @@ func (a *API) getCustomers(c *gin.Context) {
 		return
 	}
 	c.JSON(200, customers)
+}
+
+func (a *API) getExcel(c *gin.Context) {
+	input := &struct {
+		MallId int64 `json:"mallid" form:"mallid"`
+	}{}
+	if err := c.ShouldBind(input); err != nil {
+		handleErr(c, 400, err.Error())
+		return
+	}
+	f, err := a.generateExcel(input.MallId)
+	if err != nil {
+		handleErr(c, 500, err.Error())
+		return
+	}
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename=data.xlsx")
+	f.Write(c.Writer)
 }
