@@ -69,7 +69,6 @@ const fetchItems = async () => {
   try {
     const res = await http.get(`/items?mallid=${props.mallId}`)
     items.value = await res.json()
-    console.log(items.value)
   } catch (err) {
     console.log(err)
   }
@@ -78,7 +77,6 @@ const fetchItems = async () => {
 const fetchOrders = async () => {
   const res = await http.get(`/orders?mallid=${props.mallId}`)
   orders.value = await res.json()
-  console.log(orders.value)
 }
 
 onMounted(async () => {
@@ -89,7 +87,6 @@ onMounted(async () => {
 
   tableColumns.value = columns
   tableRows.value = rows
-  console.log(tableColumns.value)
 })
 </script>
 
