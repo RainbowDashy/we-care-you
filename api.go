@@ -75,7 +75,7 @@ func (a *API) Register() {
 	a.g.GET("/orders", authMiddlewareFunc, a.getOrders)
 	a.g.POST("/orders", authMiddlewareFunc, a.postOrders)
 	a.g.GET("/customers", authMiddlewareFunc, a.getCustomers)
-	a.g.GET("/excel", a.getExcel)
+	a.g.GET("/excel", authMiddlewareFunc, a.getExcel)
 }
 
 func handleErr(c *gin.Context, code int, message string) {
