@@ -335,4 +335,5 @@ func (a *API) getExcel(c *gin.Context) {
 	c.Header("Content-Type", "application/octet-stream")
 	c.Header("Content-Disposition", "attachment; filename=data.xlsx")
 	f.Write(c.Writer)
+	f.Close()
 }
