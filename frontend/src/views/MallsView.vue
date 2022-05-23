@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import { NInput } from "naive-ui"
-import MallList from "@/components/MallList.vue"
-
+import MallList from "../components/MallList.vue"
 let search = ref("")
 </script>
 

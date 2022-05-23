@@ -2,7 +2,8 @@
 import MallListItem from "./MallListItem.vue"
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
-
+import { NSpace, NSwitch } from "naive-ui"
+import { useUserStore } from "../stores/user"
 defineProps({
   search: {
     type: String,
@@ -10,11 +11,21 @@ defineProps({
   },
 })
 
+const founderFilter = ref(false)
+const customerFilter = ref(false)
+const user = useUserStore()
+
 const malls = ref([])
 const filteredMalls = computed(() => {
-  return malls.value.filter((mall) => {
+  let res = malls.value.filter((mall) => {
     return mall.state == 1
   })
+  if (founderFilter.value) {
+    res = res.filter((mall) => {
+      return mall.userid == user.id
+    })
+  }
+  return res
 })
 
 const refresh = async () => {
@@ -32,6 +43,16 @@ onMounted(refresh)
 
 <template>
   <!-- <p>The search string is {{ search }}</p> -->
+  <n-space>
+    <n-switch v-model:value="customerFilter">
+      <template #checked> 我参加的 </template>
+      <template #unchecked> 我参加的 </template>
+    </n-switch>
+    <n-switch v-model:value="founderFilter">
+      <template #checked> 我发起的 </template>
+      <template #unchecked> 我发起的 </template>
+    </n-switch>
+  </n-space>
   <MallListItem
     v-for="mall in filteredMalls"
     :key="mall.id"
