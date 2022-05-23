@@ -14,7 +14,7 @@ const menuOptions = [
             name: "home",
           },
         },
-        { default: () => "Home" }
+        { default: () => "主页" }
       ),
     key: "router-home",
   },
@@ -27,7 +27,7 @@ const menuOptions = [
             name: "malls",
           },
         },
-        { default: () => "Malls" }
+        { default: () => "商品团购" }
       ),
     key: "router-malls",
   },
@@ -40,7 +40,7 @@ const menuOptions = [
             name: "new mall",
           },
         },
-        { default: () => "New Mall" }
+        { default: () => "发起团购" }
       ),
     key: "router-mall-new",
   },
@@ -53,7 +53,7 @@ const menuOptions = [
             name: "register",
           },
         },
-        { default: () => "Register" }
+        { default: () => "注册" }
       ),
     key: "router-register",
     disabled: user.logined,
@@ -67,7 +67,7 @@ const menuOptions = [
             name: "login",
           },
         },
-        { default: () => "Login" }
+        { default: () => "登录" }
       ),
     key: "router-login",
     disabled: user.logined,
