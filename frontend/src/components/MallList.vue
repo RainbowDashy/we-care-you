@@ -16,6 +16,7 @@ const customerFilter = ref(false)
 const user = useUserStore()
 
 const malls = ref([])
+const userOrder = ref(new Set())
 const filteredMalls = computed(() => {
   let res = malls.value.filter((mall) => {
     return mall.state == 1
@@ -23,6 +24,11 @@ const filteredMalls = computed(() => {
   if (founderFilter.value) {
     res = res.filter((mall) => {
       return mall.userid == user.id
+    })
+  }
+  if (customerFilter.value) {
+    res = res.filter((mall) => {
+      return userOrder.value.has(mall.id)
     })
   }
   return res
@@ -38,7 +44,18 @@ const refresh = async () => {
   }
 }
 
-onMounted(refresh)
+const fetchOrders = async () => {
+  const res = await http.get(`/orders?userid=${user.id}`)
+  const orders = await res.json()
+  for (let order of orders) {
+    userOrder.value.add(order.mallid)
+  }
+}
+
+onMounted(async () => {
+  await refresh()
+  await fetchOrders()
+})
 </script>
 
 <template>
