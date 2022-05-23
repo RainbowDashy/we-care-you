@@ -59,6 +59,6 @@ const submit = async () => {
         </div>
       </template>
     </n-dynamic-input>
-    <n-button color=#227700  @click="submit"> Submit </n-button>
+    <n-button color="#227700" @click="submit"> Submit </n-button>
   </main>
 </template>

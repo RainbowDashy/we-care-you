@@ -34,7 +34,7 @@ const registerAndLogin = async () => {
 <template>
   <div>
     <h1>Register Now!</h1>
-    <p> Create your new account</p>
+    <p>Create your new account</p>
     <n-form>
       <n-form-item>
         <n-input v-model:value="input.username" placeholder="username" />
@@ -50,10 +50,12 @@ const registerAndLogin = async () => {
         <n-input v-model:value="input.location" placeholder="location" />
       </n-form-item>
       <n-form-item>
-        <n-button attr-type="button"
-        color=#426E52
-        size=large 
-        @click="registerAndLogin">
+        <n-button
+          attr-type="button"
+          color="#426E52"
+          size="large"
+          @click="registerAndLogin"
+        >
           Register
         </n-button>
       </n-form-item>
@@ -62,13 +64,13 @@ const registerAndLogin = async () => {
 </template>
 
 <style scoped>
-h1{
-  color:#227700;
+h1 {
+  color: #227700;
 }
-p{
-  color:#8B8B8B;
-  font-size:10px;
-  text-indent:2em;
-  line-height:15px;
+p {
+  color: #8b8b8b;
+  font-size: 10px;
+  text-indent: 2em;
+  line-height: 15px;
 }
 </style>
