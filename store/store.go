@@ -1,14 +1,18 @@
 package store
 
 import (
+	"context"
 	"database/sql"
 	"os"
 
+	"github.com/go-redis/redis/v8"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type Store struct {
-	db *sql.DB
+	db  *sql.DB
+	rdb *redis.Client
+	ctx context.Context
 }
 
 func MakeEmptyDatabase(DBPath string, migrationPath string) (*sql.DB, error) {
@@ -41,12 +45,26 @@ func OpenDatabase(DBPath string) (*sql.DB, error) {
 	return db, err
 }
 
+func OpenRedis() *redis.Client {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+	return rdb
+}
+
 func NewStore(DBPath string) (*Store, error) {
 	db, err := OpenDatabase(DBPath)
 	if err != nil {
 		return nil, err
 	}
+	rdb := OpenRedis()
+	ctx := context.Background()
+
 	return &Store{
-		db: db,
+		db:  db,
+		rdb: rdb,
+		ctx: ctx,
 	}, nil
 }
