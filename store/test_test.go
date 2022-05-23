@@ -1,6 +1,7 @@
 package store
 
 import (
+	"context"
 	"database/sql"
 	"testing"
 )
@@ -16,7 +17,9 @@ func getTestDb(t *testing.T) *sql.DB {
 func getTestStore(t *testing.T) *Store {
 	db := getTestDb(t)
 	return &Store{
-		db: db,
+		db:  db,
+		rdb: OpenRedis(),
+		ctx: context.Background(),
 	}
 }
 
