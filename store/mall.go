@@ -1,6 +1,10 @@
 package store
 
-import "database/sql"
+import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
+)
 
 type Mall struct {
 	Id     int64 `json:"id"`
@@ -37,7 +41,13 @@ func (s *Store) InsertMall(tx *sql.Tx, mall *Mall) error {
 		return err
 	}
 	mall.Id, err = result.LastInsertId()
-	return err
+	if err != nil {
+		return err
+	}
+	bytes, _ := json.Marshal(mall)
+	str := string(bytes)
+	s.rdb.HSet(s.ctx, "mall", fmt.Sprintf("%d", mall.Id), str)
+	return nil
 }
 
 func (s *Store) UpdateMall(mall *Mall) error {
@@ -135,6 +145,15 @@ func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 }
 
 func (s *Store) GetMallById(mallId int64) (*Mall, error) {
+	result, err := s.rdb.HGet(s.ctx, "mall", fmt.Sprintf("%d", mallId)).Result()
+	if err == nil {
+		mall := &Mall{}
+		err := json.Unmarshal([]byte(result), mall)
+		if err == nil {
+			fmt.Println("Redis: cached mall")
+			return mall, nil
+		}
+	}
 	rows, err := s.db.Query(`
 		SELECT id, user_id, begin_time, end_time, state
 		FROM mall

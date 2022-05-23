@@ -56,7 +56,7 @@ func (s *Store) GetUserById(id int64) (*User, error) {
 		user := &User{}
 		err := json.Unmarshal([]byte(result), user)
 		if err == nil {
-			fmt.Println("Redis: cached")
+			fmt.Println("Redis: cached user")
 			return user, nil
 		}
 	}
