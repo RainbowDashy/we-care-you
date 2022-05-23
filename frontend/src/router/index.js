@@ -4,6 +4,7 @@ import MallView from "../views/MallView.vue"
 import MallsView from "../views/MallsView.vue"
 import RegisterView from "../components/RegisterComponent.vue"
 import LoginView from "../components/LoginComponent.vue"
+import MallResultView from "../views/MallResultView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,11 @@ const router = createRouter({
       path: "/mall/new",
       name: "new mall",
       component: () => import("../components/NewMall.vue"),
+    },
+    {
+      path: "/malls/view/:id",
+      name: "view-mall",
+      component: MallResultView,
     },
   ],
 })
