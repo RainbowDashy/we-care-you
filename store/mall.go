@@ -46,7 +46,9 @@ func (s *Store) InsertMall(tx *sql.Tx, mall *Mall) error {
 	}
 	bytes, _ := json.Marshal(mall)
 	str := string(bytes)
-	s.rdb.HSet(s.ctx, "mall", fmt.Sprintf("%d", mall.Id), str)
+	if s.rdb != nil {
+		s.rdb.HSet(s.ctx, "mall", fmt.Sprintf("%d", mall.Id), str)
+	}
 	return nil
 }
 
@@ -145,13 +147,15 @@ func (s *Store) GetMallsByUserId(userId int64) ([]*Mall, error) {
 }
 
 func (s *Store) GetMallById(mallId int64) (*Mall, error) {
-	result, err := s.rdb.HGet(s.ctx, "mall", fmt.Sprintf("%d", mallId)).Result()
-	if err == nil {
-		mall := &Mall{}
-		err := json.Unmarshal([]byte(result), mall)
+	if s.rdb != nil {
+		result, err := s.rdb.HGet(s.ctx, "mall", fmt.Sprintf("%d", mallId)).Result()
 		if err == nil {
-			fmt.Println("Redis: cached mall")
-			return mall, nil
+			mall := &Mall{}
+			err := json.Unmarshal([]byte(result), mall)
+			if err == nil {
+				fmt.Println("Redis: cached mall")
+				return mall, nil
+			}
 		}
 	}
 	rows, err := s.db.Query(`
