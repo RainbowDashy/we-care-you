@@ -24,7 +24,7 @@ const login = async () => {
 <template>
   <div>
     <h1>Welcome back</h1>
-    <p> Login to your account</p>
+    <p>Login to your account</p>
     <n-form :label-width="80">
       <n-form-item>
         <n-input
@@ -40,24 +40,22 @@ const login = async () => {
         ></n-input>
       </n-form-item>
       <n-form-item>
-        <n-button 
-        attr-type="button" 
-        color=#426E52
-        size=large
-        @click="login">Login</n-button>
+        <n-button attr-type="button" color="#426E52" size="large" @click="login"
+          >Login</n-button
+        >
       </n-form-item>
     </n-form>
   </div>
 </template>
 
 <style scoped>
- h1{
-  color:#227700;
+h1 {
+  color: #227700;
 }
- p{
-  color:#8B8B8B;
-  font-size:10px;
-  text-indent:2em;
-  line-height:15px;
+p {
+  color: #8b8b8b;
+  font-size: 10px;
+  text-indent: 2em;
+  line-height: 15px;
 }
 </style>
