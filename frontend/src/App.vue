@@ -12,10 +12,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <header>
+  <header></header>
+  <RouterView class="router-view" />
+  <footer>
     <nav>
       <NavigationComponent />
     </nav>
-  </header>
-  <RouterView />
+  </footer>
 </template>
+
+<style>
+.router-view {
+  padding-bottom: 50px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100vw;
+  height: 50px;
+}
+</style>

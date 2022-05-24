@@ -6,10 +6,12 @@ let search = ref("")
 </script>
 
 <template>
-  <div class="search">
-    <n-input round placeholder="搜索" v-model:value="search" />
-  </div>
   <div>
-    <MallList :search="search"></MallList>
+    <div class="search">
+      <n-input round placeholder="搜索" v-model:value="search" />
+    </div>
+    <div>
+      <MallList :search="search"></MallList>
+    </div>
   </div>
 </template>

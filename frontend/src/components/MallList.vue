@@ -60,20 +60,22 @@ onMounted(async () => {
 
 <template>
   <!-- <p>The search string is {{ search }}</p> -->
-  <n-space>
-    <n-switch v-model:value="customerFilter">
-      <template #checked> 我参加的 </template>
-      <template #unchecked> 我参加的 </template>
-    </n-switch>
-    <n-switch v-model:value="founderFilter">
-      <template #checked> 我发起的 </template>
-      <template #unchecked> 我发起的 </template>
-    </n-switch>
-  </n-space>
-  <MallListItem
-    v-for="mall in filteredMalls"
-    :key="mall.id"
-    :mall="mall"
-    :search="search"
-  ></MallListItem>
+  <div>
+    <n-space>
+      <n-switch v-model:value="customerFilter">
+        <template #checked> 我参加的 </template>
+        <template #unchecked> 我参加的 </template>
+      </n-switch>
+      <n-switch v-model:value="founderFilter">
+        <template #checked> 我发起的 </template>
+        <template #unchecked> 我发起的 </template>
+      </n-switch>
+    </n-space>
+    <MallListItem
+      v-for="mall in filteredMalls"
+      :key="mall.id"
+      :mall="mall"
+      :search="search"
+    ></MallListItem>
+  </div>
 </template>
