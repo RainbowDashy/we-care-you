@@ -52,10 +52,7 @@ const submit = async () => {
           <n-input-number placeholder="商品价格" v-model:value="value.price">
             <template #prefix>￥</template>
           </n-input-number>
-          <n-input
-            placeholder="商品描述"
-            v-model:value="value.description"
-          />
+          <n-input placeholder="商品描述" v-model:value="value.description" />
         </div>
       </template>
     </n-dynamic-input>

@@ -27,10 +27,7 @@ const login = async () => {
     <p>账户登录</p>
     <n-form :label-width="80">
       <n-form-item>
-        <n-input
-          v-model:value="input.username"
-          placeholder="用户名"
-        ></n-input>
+        <n-input v-model:value="input.username" placeholder="用户名"></n-input>
       </n-form-item>
       <n-form-item>
         <n-input
