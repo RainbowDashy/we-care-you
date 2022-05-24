@@ -3,8 +3,13 @@ import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import http from "../http.js"
 import { useUserStore } from "../stores/user.js"
-import { NButton, NForm, NFormItem, NInput } from "naive-ui"
-import { useMessage } from "naive-ui";
+import { NButton, NForm, NFormItem, NInput,NIcon } from "naive-ui"
+import { useMessage } from "naive-ui"
+import {
+  BagCheckOutline,
+  PersonAddOutline,
+  LocationOutline,
+} from "@vicons/ionicons5"
 const router = useRouter()
 const user = useUserStore()
 
@@ -42,17 +47,29 @@ const registerAndLogin = async () => {
     <h2>创建新的账户</h2>
     <n-form>
       <n-form-item>
-        <n-input v-model:value="input.username" placeholder="用户名" />
+        <n-input v-model:value="input.username" placeholder="用户名" >
+         <template #prefix>
+        <n-icon :component="PersonAddOutline" />
+         </template>
+        </n-input>
       </n-form-item>
       <n-form-item>
         <n-input
           v-model:value="input.password"
           placeholder="密码"
           type="password"
-        />
+        >
+        <template #prefix>
+        <n-icon :component="BagCheckOutline" />
+      </template>
+      </n-input>
       </n-form-item>
       <n-form-item>
-        <n-input v-model:value="input.location" placeholder="地址" />
+        <n-input v-model:value="input.location" placeholder="地址" >
+        <template #prefix>
+        <n-icon :component="LocationOutline" />
+         </template>
+         </n-input>
       </n-form-item>
       <div style="display:flex;justify-content: center">
       <n-form-item>

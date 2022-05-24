@@ -2,7 +2,12 @@
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
-import { NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
+import { NButton, NForm, NFormItem, NInput, useMessage,NIcon } from "naive-ui"
+import {
+  BagCheckOutline,
+  PersonOutline,
+} from "@vicons/ionicons5"
+
 const user = useUserStore()
 const router = useRouter()
 
@@ -33,14 +38,22 @@ const login = async () => {
     <h2>账户登录</h2>
     <n-form :label-width="80">
       <n-form-item>
-        <n-input v-model:value="input.username" placeholder="用户名"></n-input>
+        <n-input v-model:value="input.username" placeholder="用户名">
+      <template #prefix>
+        <n-icon :component="PersonOutline" />
+      </template>
+        </n-input>
       </n-form-item>
       <n-form-item>
         <n-input
           v-model:value="input.password"
           placeholder="密码"
           type="password"
-        ></n-input>
+        >
+        <template #prefix>
+        <n-icon :component="BagCheckOutline" />
+      </template>
+      </n-input>
       </n-form-item>
       <div style="display: flex; justify-content: center">
         <n-form-item>
