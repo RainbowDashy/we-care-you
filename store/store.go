@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"os"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/mattn/go-sqlite3"
@@ -61,6 +62,13 @@ func NewStore(DBPath string) (*Store, error) {
 	}
 	rdb := OpenRedis()
 	ctx := context.Background()
+
+	timeCtx, cancel := context.WithTimeout(ctx, time.Second)
+	defer cancel()
+	_, err = rdb.Ping(timeCtx).Result()
+	if err != nil {
+		rdb = nil
+	}
 
 	return &Store{
 		db:  db,
