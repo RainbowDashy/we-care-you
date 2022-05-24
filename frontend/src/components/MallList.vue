@@ -74,5 +74,6 @@ onMounted(async () => {
     v-for="mall in filteredMalls"
     :key="mall.id"
     :mall="mall"
+    :search="search"
   ></MallListItem>
 </template>

@@ -8,12 +8,24 @@ const props = defineProps({
   mall: {
     require: true,
   },
+  search: String,
 })
 
 const items = ref([])
 
 const mallDescription = computed(() => {
   return items.value.map((item) => item.name).join(" ")
+})
+
+const show = computed(() => {
+  return (
+    items.value.filter((item) => {
+      return (
+        item.name.includes(props.search) ||
+        item.description.includes(props.search)
+      )
+    }).length > 0
+  )
 })
 
 const fetchItems = async () => {
@@ -36,7 +48,7 @@ onMounted(fetchItems)
 </script>
 
 <template>
-  <div class="mall">
+  <div class="mall" v-show="show">
     <n-card :title="`拼团${mall.id}`" size="small">
       <n-space justify="space-between">
         <p>开始：<n-time :time="mall.begintime" format="M月d日H时mm分" /></p>
