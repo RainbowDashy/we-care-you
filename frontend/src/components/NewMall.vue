@@ -5,6 +5,9 @@ import {
   NDynamicInput,
   NInput,
   NInputNumber,
+  zhCN,
+  dateZhCN,
+  NConfigProvider 
 } from "naive-ui"
 import { ref } from "vue"
 import http from "../http"
@@ -42,7 +45,9 @@ const submit = async () => {
 
 <template>
   <main>
+    <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
     <n-date-picker v-model:value="endtime" type="datetime" />
+    </n-config-provider>
     <n-dynamic-input v-model:value="customValue" :on-create="onCreate">
       <template #create-button-default>创建新的团购 </template>
       <template #default="{ value }">
