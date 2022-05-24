@@ -2,6 +2,7 @@
 import { RouterView } from "vue-router"
 import { useUserStore } from "./stores/user"
 import { onMounted } from "vue"
+import {NMessageProvider} from "naive-ui"
 import NavigationComponent from "./components/NavigationComponent.vue"
 import HeaderComponent from "./components/HeaderComponent.vue"
 
@@ -13,6 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
+<n-message-provider>
   <header>
     <HeaderComponent />
   </header>
@@ -22,6 +24,7 @@ onMounted(() => {
       <NavigationComponent />
     </nav>
   </footer>
+  </n-message-provider>
 </template>
 
 <style>
