@@ -1,16 +1,19 @@
 <script setup>
 import { NMenu } from "naive-ui"
 import { NIcon } from "naive-ui"
-import { h } from "vue"
+import { computed, h } from "vue"
 import { RouterLink } from "vue-router"
 import { useUserStore } from "../stores/user"
 import {
-  ListOutline as ListIcon,
-  HomeOutline as HomeIcon,
+  HomeOutline,
+  StorefrontOutline,
+  CartOutline,
+  PersonOutline,
+  PersonAddOutline,
 } from "@vicons/ionicons5"
 
 const user = useUserStore()
-const menuOptions = [
+const menuOptions = computed(() => [
   {
     label: () =>
       h(
@@ -23,7 +26,7 @@ const menuOptions = [
         { default: () => "主页" }
       ),
     key: "router-home",
-    icon: renderIcon(HomeIcon),
+    icon: renderIcon(HomeOutline),
   },
   {
     label: () =>
@@ -34,10 +37,10 @@ const menuOptions = [
             name: "malls",
           },
         },
-        { default: () => "商品团购" }
+        { default: () => "团购" }
       ),
     key: "router-malls",
-    icon: renderIcon(ListIcon),
+    icon: renderIcon(CartOutline),
   },
   {
     label: () =>
@@ -48,10 +51,10 @@ const menuOptions = [
             name: "new mall",
           },
         },
-        { default: () => "发起团购" }
+        { default: () => "开团" }
       ),
     key: "router-mall-new",
-    icon: renderIcon(ListIcon),
+    icon: renderIcon(StorefrontOutline),
   },
   {
     label: () =>
@@ -66,7 +69,7 @@ const menuOptions = [
       ),
     key: "router-register",
     disabled: user.logined,
-    icon: renderIcon(ListIcon),
+    icon: renderIcon(PersonAddOutline),
   },
   {
     label: () =>
@@ -81,13 +84,31 @@ const menuOptions = [
       ),
     key: "router-login",
     disabled: user.logined,
-    icon: renderIcon(ListIcon),
+    icon: renderIcon(PersonOutline),
   },
-]
+])
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 </script>
 <template>
-  <n-menu :options="menuOptions" />
+  <n-menu class="navigation" :options="menuOptions" mode="horizontal" />
 </template>
+
+<style>
+.navigation .n-menu-item-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+.navigation .n-menu-item-content__icon {
+  margin-right: 0 !important;
+}
+.navigation {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-around;
+}
+</style>
