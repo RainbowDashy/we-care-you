@@ -12,7 +12,9 @@ const returnToPurchase = () => {
 </script>
 
 <template>
-  <n-button @click="returnToPurchase">返回购买</n-button>
-  <MallResultTable :mallId="mallId" />
-  <ExcelExportComponent :mallId="mallId" />
+  <div>
+    <n-button @click="returnToPurchase">返回购买</n-button>
+    <MallResultTable :mallId="mallId" />
+    <ExcelExportComponent :mallId="mallId" />
+  </div>
 </template>

@@ -13,6 +13,8 @@ const jumpToView = () => {
 </script>
 
 <template>
-  <n-button @click="jumpToView">查看购买记录</n-button>
-  <ItemList :mallId="mallId" />
+  <div>
+    <n-button @click="jumpToView">查看购买记录</n-button>
+    <ItemList :mallId="mallId" />
+  </div>
 </template>
