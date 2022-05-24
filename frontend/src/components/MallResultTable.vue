@@ -92,7 +92,7 @@ onMounted(async () => {
 
 <template>
   <main>
-    <h1>Mall Result</h1>
+    <h1>交易数据</h1>
     <n-data-table :columns="tableColumns" :data="tableRows" />
   </main>
 </template>
