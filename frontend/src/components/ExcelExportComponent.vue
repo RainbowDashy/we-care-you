@@ -15,7 +15,7 @@ const exportExcel = async () => {
   const a = document.createElement("a")
   a.style.display = "none"
   a.href = url
-  a.download = `${props.mallId}.xls`
+  a.download = `${props.mallId}.xlsx`
   document.body.appendChild(a)
   a.click()
   window.URL.revokeObjectURL(url)
