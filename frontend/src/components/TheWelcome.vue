@@ -5,9 +5,18 @@ import ToolingIcon from "./icons/IconTooling.vue"
 import EcosystemIcon from "./icons/IconEcosystem.vue"
 import CommunityIcon from "./icons/IconCommunity.vue"
 import SupportIcon from "./icons/IconSupport.vue"
+import { useUserStore } from "../stores/user.js"
+
+const user = useUserStore()
+
 </script>
 
+
+
 <template>
+  <div style="color:#8b8b8b;text-align: center ">
+    <h1>{{user.username}} 我们与你在一起</h1>
+  </div>
   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
@@ -91,3 +100,4 @@ import SupportIcon from "./icons/IconSupport.vue"
     <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a>.
   </WelcomeItem>
 </template>
+
