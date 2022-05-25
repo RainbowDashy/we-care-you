@@ -6,26 +6,30 @@ import EcosystemIcon from "./icons/IconEcosystem.vue"
 import CommunityIcon from "./icons/IconCommunity.vue"
 import SupportIcon from "./icons/IconSupport.vue"
 import { useUserStore } from "../stores/user.js"
-
+import {NFormItem} from "naive-ui"
 const user = useUserStore()
 const begintime=new Date().toLocaleString()
 
 </script>
 
 <template>
-  <div>
+<div id="building">
+  <div >
     <h1 style=" color: #227700; text-align: center">
     {{user.username}}我们与你在一起
     </h1>
-    <h2>当前时间是{{begintime}}</h2>
+    <h2 class="cur_time">当前时间是{{begintime}}</h2>
+    <img class="img" src="../photos/1.png" alt="loading..." 
+    >
   </div>
-  <WelcomeItem>
+
+<!--   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
     </template>
     <template #heading>Documentation</template>
-
-    Vue’s
+ -->
+  <!--   Vue’s
     <a target="_blank" href="https://vuejs.org/">official documentation</a>
     provides you with all information you need to get started.
   </WelcomeItem>
@@ -100,5 +104,34 @@ const begintime=new Date().toLocaleString()
     As an independent project, Vue relies on community backing for its
     sustainability. You can help us by
     <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a>.
-  </WelcomeItem>
+  </WelcomeItem> -->
+ </div>
 </template>
+<style scoped>
+#building{
+  background:url("../photos/2.png");
+  width:100%;
+  height:100%;
+/*   background-position:0px 100px; */
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+.img{
+  width:94%;
+  height:auto;
+  margin-left:3%;
+  margin-top:10%;
+
+/* position: absolute;
+width:528px ;
+height:330px ;
+margin-left: 3%;
+top: 40%;
+height: 30%;
+margin-top: -15%; */
+}
+
+.cur_time{ 
+  margin-left:3%;
+}
+</style>  
