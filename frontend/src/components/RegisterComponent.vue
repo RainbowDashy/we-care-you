@@ -3,7 +3,7 @@ import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import http from "../http.js"
 import { useUserStore } from "../stores/user.js"
-import { NButton, NForm, NFormItem, NInput,NIcon } from "naive-ui"
+import { NButton, NForm, NFormItem, NInput, NIcon } from "naive-ui"
 import { useMessage } from "naive-ui"
 import {
   BagCheckOutline,
@@ -18,7 +18,7 @@ const input = reactive({
   password: "",
   location: "",
 })
-const message=useMessage()
+const message = useMessage()
 const registerAndLogin = async () => {
   try {
     await http.post("/users", {
@@ -42,15 +42,15 @@ const registerAndLogin = async () => {
 }
 </script>
 <template>
-  <div >
+  <div>
     <h1>注册</h1>
     <h2>创建新的账户</h2>
     <n-form>
       <n-form-item>
-        <n-input v-model:value="input.username" placeholder="用户名" >
-         <template #prefix>
-        <n-icon :component="PersonAddOutline" />
-         </template>
+        <n-input v-model:value="input.username" placeholder="用户名">
+          <template #prefix>
+            <n-icon :component="PersonAddOutline" />
+          </template>
         </n-input>
       </n-form-item>
       <n-form-item>
@@ -59,29 +59,29 @@ const registerAndLogin = async () => {
           placeholder="密码"
           type="password"
         >
-        <template #prefix>
-        <n-icon :component="BagCheckOutline" />
-      </template>
-      </n-input>
+          <template #prefix>
+            <n-icon :component="BagCheckOutline" />
+          </template>
+        </n-input>
       </n-form-item>
       <n-form-item>
-        <n-input v-model:value="input.location" placeholder="地址" >
-        <template #prefix>
-        <n-icon :component="LocationOutline" />
-         </template>
-         </n-input>
+        <n-input v-model:value="input.location" placeholder="地址">
+          <template #prefix>
+            <n-icon :component="LocationOutline" />
+          </template>
+        </n-input>
       </n-form-item>
-      <div style="display:flex;justify-content: center">
-      <n-form-item>
-        <n-button
-          attr-type="button"
-          color="#426E52"
-          size="large"
-          @click="registerAndLogin"
-        >
-          注册
-        </n-button>
-      </n-form-item>
+      <div style="display: flex; justify-content: center">
+        <n-form-item>
+          <n-button
+            attr-type="button"
+            color="#426E52"
+            size="large"
+            @click="registerAndLogin"
+          >
+            注册
+          </n-button>
+        </n-form-item>
       </div>
     </n-form>
   </div>
@@ -96,5 +96,4 @@ h2 {
   color: #8b8b8b;
   text-align: center;
 }
- 
 </style>

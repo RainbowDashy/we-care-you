@@ -2,11 +2,8 @@
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
-import { NButton, NForm, NFormItem, NInput, useMessage,NIcon } from "naive-ui"
-import {
-  BagCheckOutline,
-  PersonOutline,
-} from "@vicons/ionicons5"
+import { NButton, NForm, NFormItem, NInput, useMessage, NIcon } from "naive-ui"
+import { BagCheckOutline, PersonOutline } from "@vicons/ionicons5"
 
 const user = useUserStore()
 const router = useRouter()
@@ -19,7 +16,6 @@ let input = reactive({
 const message = useMessage()
 
 const login = async () => {
-  
   try {
     await user.login(input.username, input.password)
     message.success("登录成功")
@@ -30,7 +26,6 @@ const login = async () => {
   }
   router.push("/")
 }
-
 </script>
 <template>
   <div>
@@ -39,9 +34,9 @@ const login = async () => {
     <n-form :label-width="80">
       <n-form-item>
         <n-input v-model:value="input.username" placeholder="用户名">
-      <template #prefix>
-        <n-icon :component="PersonOutline" />
-      </template>
+          <template #prefix>
+            <n-icon :component="PersonOutline" />
+          </template>
         </n-input>
       </n-form-item>
       <n-form-item>
@@ -50,16 +45,21 @@ const login = async () => {
           placeholder="密码"
           type="password"
         >
-        <template #prefix>
-        <n-icon :component="BagCheckOutline" />
-      </template>
-      </n-input>
+          <template #prefix>
+            <n-icon :component="BagCheckOutline" />
+          </template>
+        </n-input>
       </n-form-item>
       <div style="display: flex; justify-content: center">
         <n-form-item>
-          <n-button attr-type="button" color="#426E52" size="large"  @click="login">
-          登录
-          </n-button>         
+          <n-button
+            attr-type="button"
+            color="#426E52"
+            size="large"
+            @click="login"
+          >
+            登录
+          </n-button>
         </n-form-item>
       </div>
     </n-form>
@@ -69,11 +69,10 @@ const login = async () => {
 <style scoped>
 h1 {
   color: #227700;
-  text-align: center
+  text-align: center;
 }
 h2 {
   color: #8b8b8b;
-  text-align: center
+  text-align: center;
 }
-
 </style>

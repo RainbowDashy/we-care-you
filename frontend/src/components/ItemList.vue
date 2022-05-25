@@ -1,9 +1,8 @@
 <script setup>
-import { NImage, NButton, NSpace, NInputNumber, NMessageProvider, useMessage } from "naive-ui"
+import { NImage, NButton, NSpace, NInputNumber, useMessage } from "naive-ui"
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
 import { useUserStore } from "../stores/user"
-
 
 const props = defineProps({
   mallId: {
@@ -49,7 +48,6 @@ const buy = async () => {
       body: JSON.stringify({ orders: orders.value }),
     })
     message.success("下单成功")
-
   } catch (err) {
     console.log(err)
     message.error("下单失败，请重新下单")

@@ -2,7 +2,7 @@
 import { RouterView } from "vue-router"
 import { useUserStore } from "./stores/user"
 import { onMounted } from "vue"
-import {NMessageProvider} from "naive-ui"
+import { NMessageProvider } from "naive-ui"
 import NavigationComponent from "./components/NavigationComponent.vue"
 import HeaderComponent from "./components/HeaderComponent.vue"
 
@@ -14,16 +14,16 @@ onMounted(() => {
 </script>
 
 <template>
-<n-message-provider>
-  <header>
-    <HeaderComponent />
-  </header>
-  <RouterView class="router-view" />
-  <footer>
-    <nav>
-      <NavigationComponent />
-    </nav>
-  </footer>
+  <n-message-provider>
+    <header>
+      <HeaderComponent />
+    </header>
+    <RouterView class="router-view" />
+    <footer>
+      <nav>
+        <NavigationComponent />
+      </nav>
+    </footer>
   </n-message-provider>
 </template>
 
