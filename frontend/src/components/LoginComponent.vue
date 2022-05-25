@@ -2,7 +2,7 @@
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user.js"
-import { NButton, NForm, NFormItem, NInput, useMessage,NIcon} from "naive-ui"
+import { NButton, NForm, NFormItem, NInput, useMessage,NIcon } from "naive-ui"
 import {
   BagCheckOutline,
   PersonOutline,
