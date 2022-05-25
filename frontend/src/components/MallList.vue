@@ -2,7 +2,7 @@
 import MallListItem from "./MallListItem.vue"
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
-import { NSpace, NSwitch} from "naive-ui"
+import { NSpace, NSwitch } from "naive-ui"
 import { useUserStore } from "../stores/user"
 defineProps({
   search: {
@@ -59,9 +59,8 @@ onMounted(async () => {
 </script>
 
 <template>
-
   <!-- <p>The search string is {{ search }}</p> -->
-  
+
   <div>
     <n-space>
       <n-switch v-model:value="customerFilter">
