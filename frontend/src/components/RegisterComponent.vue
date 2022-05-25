@@ -32,7 +32,7 @@ const registerAndLogin = async () => {
 }
 </script>
 <template>
-  <div>
+  <div id='building'>
     <h1>注册</h1>
     <p>创建新的账户</p>
     <n-form>
@@ -55,22 +55,39 @@ const registerAndLogin = async () => {
           color="#426E52"
           size="large"
           @click="registerAndLogin"
+          
         >
           注册
         </n-button>
       </n-form-item>
     </n-form>
   </div>
+  
 </template>
+
 
 <style scoped>
 h1 {
-  color: #227700;
+  color: #007702;
 }
 p {
-  color: #8b8b8b;
+  color: #120762;
   font-size: 10px;
   text-indent: 2em;
   line-height: 15px;
 }
-</style>
+
+
+#building{
+  background:url("../photos/3.jpg");
+  width:100%;
+  height:100%;
+  position:fixed;
+  background-size:100% 30%;
+  background-repeat: no-repeat;
+}
+
+
+
+</style> 
+

@@ -58,4 +58,6 @@ const submit = async () => {
     </n-dynamic-input>
     <n-button color="#227700" @click="submit"> 提交 </n-button>
   </main>
+
 </template>
+

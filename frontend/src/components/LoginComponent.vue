@@ -22,7 +22,7 @@ const login = async () => {
 }
 </script>
 <template>
-  <div>
+  <div id="building">
     <h1>欢迎使用</h1>
     <p>账户登录</p>
     <n-form :label-width="80">
@@ -54,5 +54,14 @@ p {
   font-size: 10px;
   text-indent: 2em;
   line-height: 15px;
+}
+#building{
+  background:url("../photos/3.jpg");
+  width:100%;
+  height:100%;
+  position:fixed;
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  bottom:0;
 }
 </style>
