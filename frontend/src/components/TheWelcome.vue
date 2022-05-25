@@ -5,9 +5,20 @@ import ToolingIcon from "./icons/IconTooling.vue"
 import EcosystemIcon from "./icons/IconEcosystem.vue"
 import CommunityIcon from "./icons/IconCommunity.vue"
 import SupportIcon from "./icons/IconSupport.vue"
+import { useUserStore } from "../stores/user.js"
+
+const user = useUserStore()
+const begintime=new Date().toLocaleString()
+
 </script>
 
 <template>
+  <div>
+    <h1 style=" color: #227700; text-align: center">
+    {{user.username}}我们与你在一起
+    </h1>
+    <h2>当前时间是{{begintime}}</h2>
+  </div>
   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
