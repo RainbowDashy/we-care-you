@@ -2,7 +2,7 @@
 import MallListItem from "./MallListItem.vue"
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
-import { NSpace, NSwitch,NIcon } from "naive-ui"
+import { NSpace, NSwitch} from "naive-ui"
 import { useUserStore } from "../stores/user"
 defineProps({
   search: {
@@ -10,9 +10,7 @@ defineProps({
     default: "",
   },
 })
-import {
-  Search
-} from "@vicons/ionicons5"
+
 const founderFilter = ref(false)
 const customerFilter = ref(false)
 const user = useUserStore()
@@ -61,7 +59,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <n-icon :component="Search" />
+
   <!-- <p>The search string is {{ search }}</p> -->
   
   <div>
@@ -75,6 +73,7 @@ onMounted(async () => {
         <template #unchecked> 我发起的 </template>
       </n-switch>
     </n-space>
+
     <MallListItem
       v-for="mall in filteredMalls"
       :key="mall.id"
