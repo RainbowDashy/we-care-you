@@ -16,11 +16,12 @@ const begintime=new Date().toLocaleString()
 <div id="building">
   <div >
     <h1 style=" color: #227700; text-align: center">
-    {{user.username}}我们与你在一起
+    {{user.username}}我们与你同在
     </h1>
-    <h2 class="cur_time">当前时间是{{begintime}}</h2>
+    <h2 class="cur_time" style=" color:#8b8b8b;font-size:15px">当前时间是{{begintime}}</h2>
     <img class="img" src="../photos/1.png" alt="loading..." 
     >
+    <h3 style=" color: #227700; text-align: center" >请点击下方按钮开始您的使用</h3>
   </div>
 
 <!--   <WelcomeItem>
