@@ -81,3 +81,4 @@ onMounted(async () => {
     ></MallListItem>
   </div>
 </template>
+
