@@ -41,8 +41,9 @@ const registerAndLogin = async () => {
   router.push("/")
 }
 </script>
+
 <template>
-  <div id='building'>
+<div id="building">
     <h1>注册</h1>
     <h2>创建新的账户</h2>
     <n-form>
@@ -84,7 +85,7 @@ const registerAndLogin = async () => {
         </n-form-item>
       </div>
     </n-form>
-  </div>
+</div>
   
 </template>
 
@@ -103,15 +104,13 @@ h2 {
 
 
 #building{
-  background:url("../photos/3.jpg");
+  background:url("../photos/3.jpg") scroll top  rgba(255, 255, 255, 0.5);
   width:100%;
-  height:100%;
-  position:fixed;
-  background-size:100% 30%;
+  height:10%;
+/*   background-position:0px 100px; */
+  background-size:100% 100%;
   background-repeat: no-repeat;
 }
-
-
 
 </style> 
 

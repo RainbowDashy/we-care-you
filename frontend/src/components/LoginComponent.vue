@@ -28,7 +28,7 @@ const login = async () => {
 }
 </script>
 <template>
-  <div id="building">
+<div id="building"> 
     <h1>欢迎使用</h1>
     <h2>账户登录</h2>
     <n-form :label-width="80">
@@ -63,7 +63,7 @@ const login = async () => {
         </n-form-item>
       </div>
     </n-form>
-  </div>
+</div>
 </template>
 
 <style scoped>
@@ -76,12 +76,11 @@ h2 {
   text-align: center;
 }
 #building{
-  background:url("../photos/3.jpg");
+  background:url("../photos/3.jpg") scroll top rgba(255, 255, 255, 0.5);
   width:100%;
-  height:100%;
-  position:fixed;
+  height:10%;
+/*   background-position:0px 100px; */
   background-size:100% 100%;
   background-repeat: no-repeat;
-  bottom:0;
 }
 </style>
