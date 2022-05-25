@@ -11,7 +11,7 @@ const router = useRouter()
     <n-button text class="header-button" @click="router.back">
       <n-icon><ChevronBackOutline /></n-icon>
     </n-button>
-    <span class="header-title">we-care-you</span>
+    <span class="header-title">We Care You</span>
     <n-button text class="header-button" @click="router.forward">
       <n-icon><ChevronForwardOutline /></n-icon>
     </n-button>

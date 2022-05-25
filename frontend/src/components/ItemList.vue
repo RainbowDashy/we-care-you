@@ -1,5 +1,5 @@
 <script setup>
-import { NImage, NButton, NSpace, NInputNumber } from "naive-ui"
+import { NImage, NButton, NSpace, NInputNumber, useMessage } from "naive-ui"
 import { computed, onMounted, ref } from "vue"
 import http from "../http"
 import { useUserStore } from "../stores/user"
@@ -10,6 +10,7 @@ const props = defineProps({
     required: true,
   },
 })
+const message = useMessage()
 const items = ref([])
 const orders = ref([])
 const user = useUserStore()
@@ -46,8 +47,10 @@ const buy = async () => {
     await http.post("/orders", {
       body: JSON.stringify({ orders: orders.value }),
     })
+    message.success("下单成功")
   } catch (err) {
     console.log(err)
+    message.error("下单失败，请重新下单")
   }
 }
 </script>

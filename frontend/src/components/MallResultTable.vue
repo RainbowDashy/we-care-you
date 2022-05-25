@@ -6,13 +6,13 @@ import http from "../http"
 const createColumns = (items) => {
   let res = [
     {
-      title: "User ID",
+      title: "用户",
       key: "userid",
     },
   ]
   for (let item of items) {
     res.push({
-      title: item.name,
+      title: "商品" + item.name,
       key: "item" + item.id,
     })
   }
@@ -92,7 +92,7 @@ onMounted(async () => {
 
 <template>
   <main>
-    <h1>Mall Result</h1>
+    <h1>交易数据</h1>
     <n-data-table :columns="tableColumns" :data="tableRows" />
   </main>
 </template>

@@ -60,6 +60,7 @@ onMounted(async () => {
 
 <template>
   <!-- <p>The search string is {{ search }}</p> -->
+
   <div>
     <n-space>
       <n-switch v-model:value="customerFilter">
@@ -71,6 +72,7 @@ onMounted(async () => {
         <template #unchecked> 我发起的 </template>
       </n-switch>
     </n-space>
+
     <MallListItem
       v-for="mall in filteredMalls"
       :key="mall.id"
