@@ -109,11 +109,11 @@ const buy = async () => {
 .item-description h3 {
   margin: 0;
 }
-#building{
-  background:url("../photos/1.jpg");
-  width:100%;
-  height:100%;
-  position:fixed;
-  background-size:100% 100%;
+#building {
+  background: url("../photos/1.jpg");
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-size: 100% 100%;
 }
 </style>

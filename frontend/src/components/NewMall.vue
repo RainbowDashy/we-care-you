@@ -92,6 +92,4 @@ const submit = async () => {
       </n-form-item>
     </div>
   </main>
-
 </template>
-

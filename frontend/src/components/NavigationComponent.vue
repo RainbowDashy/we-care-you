@@ -111,5 +111,4 @@ function renderIcon(icon) {
   flex-direction: row;
   justify-content: space-around;
 }
-
 </style>

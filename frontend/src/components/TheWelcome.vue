@@ -1,36 +1,31 @@
 <script setup>
-import WelcomeItem from "./WelcomeItem.vue"
-import DocumentationIcon from "./icons/IconDocumentation.vue"
-import ToolingIcon from "./icons/IconTooling.vue"
-import EcosystemIcon from "./icons/IconEcosystem.vue"
-import CommunityIcon from "./icons/IconCommunity.vue"
-import SupportIcon from "./icons/IconSupport.vue"
 import { useUserStore } from "../stores/user.js"
-import {NFormItem} from "naive-ui"
 const user = useUserStore()
-const begintime=new Date().toLocaleString()
-
+const begintime = new Date().toLocaleString()
 </script>
 
 <template>
-<div id="building">
-  <div >
-    <h1 style=" color: #227700; text-align: center">
-    {{user.username}}我们与你同在
-    </h1>
-    <h2 class="cur_time" style=" color:#8b8b8b;font-size:15px">当前时间是{{begintime}}</h2>
-    <img class="img" src="../photos/1.png" alt="loading..." 
-    >
-    <h3 style=" color: #227700; text-align: center" >请点击下方按钮开始您的使用</h3>
-  </div>
+  <div id="building">
+    <div>
+      <h1 style="color: #227700; text-align: center">
+        {{ user.username }}我们与你同在
+      </h1>
+      <h2 class="cur_time" style="color: #8b8b8b; font-size: 15px">
+        当前时间是{{ begintime }}
+      </h2>
+      <img class="img" src="../photos/1.png" alt="loading..." />
+      <h3 style="color: #227700; text-align: center">
+        请点击下方按钮开始您的使用
+      </h3>
+    </div>
 
-<!--   <WelcomeItem>
+    <!--   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
     </template>
     <template #heading>Documentation</template>
  -->
-  <!--   Vue’s
+    <!--   Vue’s
     <a target="_blank" href="https://vuejs.org/">official documentation</a>
     provides you with all information you need to get started.
   </WelcomeItem>
@@ -106,24 +101,24 @@ const begintime=new Date().toLocaleString()
     sustainability. You can help us by
     <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a>.
   </WelcomeItem> -->
- </div>
+  </div>
 </template>
 <style scoped>
-#building{
-  background:url("../photos/2.png");
-  width:100%;
-  height:100%;
-/*   background-position:0px 100px; */
-  background-size:100% 100%;
+#building {
+  background: url("../photos/2.png");
+  width: 100%;
+  height: 100%;
+  /*   background-position:0px 100px; */
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
-.img{
-  width:94%;
-  height:auto;
-  margin-left:3%;
-  margin-top:10%;
+.img {
+  width: 94%;
+  height: auto;
+  margin-left: 3%;
+  margin-top: 10%;
 
-/* position: absolute;
+  /* position: absolute;
 width:528px ;
 height:330px ;
 margin-left: 3%;
@@ -132,7 +127,7 @@ height: 30%;
 margin-top: -15%; */
 }
 
-.cur_time{ 
-  margin-left:3%;
+.cur_time {
+  margin-left: 3%;
 }
-</style>  
+</style>

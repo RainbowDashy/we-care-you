@@ -47,7 +47,6 @@ footer {
   width: 100vw;
   padding-top: 5px;
   height: 45px;
-  z-index: 99; }
-
-
+  z-index: 99;
+}
 </style>
