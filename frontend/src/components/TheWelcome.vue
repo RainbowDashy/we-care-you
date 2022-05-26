@@ -1,7 +1,21 @@
 <script setup>
+import { onMounted, onBeforeUnmount, ref } from "vue"
 import { useUserStore } from "../stores/user.js"
 const user = useUserStore()
-const begintime = new Date().toLocaleString()
+const begintime = ref(new Date().toLocaleString())
+let timer = null
+
+onMounted(() => {
+  timer = setInterval(() => {
+    begintime.value = new Date().toLocaleString()
+  })
+})
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearInterval(timer)
+  }
+})
 </script>
 
 <template>
