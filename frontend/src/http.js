@@ -24,7 +24,7 @@ function injectContentType(data) {
 }
 
 export default {
-  baseURL: "http://localhost:8080/api",
+  baseURL: import.meta.env.PROD ? "/api" : "http://localhost:8080/api",
   setBaseURL(url) {
     this.baseURL = url
   },
