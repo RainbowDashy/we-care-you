@@ -2,6 +2,12 @@
 
 [![Go](https://github.com/RainbowDashy/we-care-you/actions/workflows/go.yml/badge.svg)](https://github.com/RainbowDashy/we-care-you/actions/workflows/go.yml)
 
+## Documentations
+
+- [Requirements]() 
+- [Design](https://notes.sjtu.edu.cn/s/zf9tBCI4J)
+- [Test and Deployment](https://notes.sjtu.edu.cn/s/hdGyejDWE)
+
 ## Start with Docker
 
 First, generate the database:
@@ -19,6 +25,20 @@ docker build . -t we-care-you
 Then, run the container:
 ```shell
 docker run -p 8080:8080 -v $PWD/data.db:/we-care-you/data.db we-care-you
+```
+
+## Build from source
+
+- frontend
+
+```shell
+pnpm build
+```
+
+- backend
+
+```shell
+go build .
 ```
 
 
