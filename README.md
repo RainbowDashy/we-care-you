@@ -4,7 +4,7 @@
 
 ## Documentations
 
-- [Requirements]() 
+- [Requirements](https://notes.sjtu.edu.cn/s/JHQRkevIC) 
 - [Design](https://notes.sjtu.edu.cn/s/zf9tBCI4J)
 - [Test and Deployment](https://notes.sjtu.edu.cn/s/hdGyejDWE)
 
